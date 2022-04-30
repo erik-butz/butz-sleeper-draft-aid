@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import fetchAllPlayers from './scripts/fetchPlayersScript'
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn Reeact
         </a>
+        <button onClick={fetchAllPlayers}>TestingButton</button>
       </header>
     </div>
   );
