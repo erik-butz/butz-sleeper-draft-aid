@@ -7,6 +7,7 @@ const app = express()
 
 app.get('/fetchAllPlayers', (req, res) => {
   let db, players
+  let collectionName = 'TESTPlayers'
 
   MongoClient.connect(
     url,
@@ -22,15 +23,31 @@ app.get('/fetchAllPlayers', (req, res) => {
         console.log('Mongodb Connection Successful!')
       }
       db = client.db('TESTSleeperNflPlayers')
-      players = db.collection('TESTPlayers')
-    })
+      players = db.collection(collectionName)
 
-  const nflPlayersUrl = 'https://api.sleeper.app/v1/user/mavelas'
+      db.collection(collectionName).drop((err, result) => {
+        if (err) {
+          console.log(`ERROR DROPPING collection ${collectionName}`)
+        } else {
+          console.log(result)
+        }
+      })
+    }
+
+  )
+
+  const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
   const fetchUsers = async () => {
     const response = await fetch(nflPlayersUrl)
     const data = await response.json()
-    console.log(data)
-    players.insertOne(data)
+
+    for (let i = 1; i < Object.keys(data).length; i++) {
+      if (data[i] === undefined) {
+        continue
+      } else {
+        players.insertOne(data[i])
+      }
+    }
     res.status(200).json(data)
   }
 
