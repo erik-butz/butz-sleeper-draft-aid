@@ -6,7 +6,7 @@ const fetch = require('node-fetch')
 const app = express()
 
 let db, players
-let collectionName = 'TESTPlayers'
+let collectionName = 'AllPlayers'
 
 MongoClient.connect(
   url,
@@ -21,7 +21,7 @@ MongoClient.connect(
     } else {
       console.log('Mongodb Connection Successful!')
     }
-    db = client.db('TESTSleeperNflPlayers')
+    db = client.db('SleeperNflPlayers')
     players = db.collection(collectionName)
   }
 )
