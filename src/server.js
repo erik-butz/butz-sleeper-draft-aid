@@ -5,36 +5,36 @@ const fetch = require('node-fetch')
 
 const app = express()
 
-app.get('/fetchAllPlayers', (req, res) => {
-  let db, players
-  let collectionName = 'TESTPlayers'
+let db, players
+let collectionName = 'TESTPlayers'
 
-  MongoClient.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-    (err, client) => {
-      if (err) {
-        console.log(err)
-        return
-      } else {
-        console.log('Mongodb Connection Successful!')
-      }
-      db = client.db('TESTSleeperNflPlayers')
-      players = db.collection(collectionName)
-
-      db.collection(collectionName).drop((err, result) => {
-        if (err) {
-          console.log(`ERROR DROPPING collection ${collectionName}`)
-        } else {
-          console.log(result)
-        }
-      })
+MongoClient.connect(
+  url,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err, client) => {
+    if (err) {
+      console.log(err)
+      return
+    } else {
+      console.log('Mongodb Connection Successful!')
     }
+    db = client.db('TESTSleeperNflPlayers')
+    players = db.collection(collectionName)
+  }
+)
 
-  )
+app.get('/fetchAllPlayers', (req, res) => {
+
+  db.collection(collectionName).drop((err, result) => {
+    if (err) {
+      console.log(`ERROR DROPPING collection ${collectionName}`)
+    } else {
+      console.log(result)
+    }
+  })
 
   const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
   const fetchUsers = async () => {
@@ -52,6 +52,20 @@ app.get('/fetchAllPlayers', (req, res) => {
   }
 
   fetchUsers()
+})
+
+app.get('/fetchPlayer', (req, res) => {
+  const playerQueryId = req.query.id
+  const query = {
+    'player_id': `${playerQueryId}`
+  }
+
+  const fetchUserByPlayerId = async () => {
+    console.log('Inside fetchUserByPlayerId')
+    const foundPlayer = await players.find(query).toArray()
+    res.send(foundPlayer)
+  }
+  fetchUserByPlayerId()
 })
 
 app.listen(3000, () => console.log('Server Ready and Running'))
