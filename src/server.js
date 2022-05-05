@@ -21,7 +21,9 @@ MongoClient.connect(
     } else {
       console.log('Mongodb Connection Successful!')
     }
+    //Database Name
     db = client.db('SleeperNflPlayers')
+    //Collection (Table) Name in MongoDB
     players = db.collection(collectionName)
   }
 )
