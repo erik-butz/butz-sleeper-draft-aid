@@ -15,7 +15,9 @@ function PlayerRankings() {
     setLeagueUsers(data)
   }
   useEffect(() => {
-    fetchUsers()
+      setInterval(() => {
+          fetchUsers()
+      }, 3000)
   }, [])
 
   return (
