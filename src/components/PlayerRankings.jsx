@@ -7,8 +7,8 @@ function PlayerRankings() {
   //WB League
   //const leagueId = '730849095425609728'
   //Dynasty League
-  const leagueId = '784526741342461952'
-  const url = `https://api.sleeper.app/v1/league/${leagueId}/users`
+  const draftId = '827766781534920704'
+  const url = `https://api.sleeper.app/v1/draft/${draftId}/picks`
   const fetchUsers = async () => {
     const response = await fetch(url)
     const data = await response.json()
@@ -20,9 +20,9 @@ function PlayerRankings() {
 
   return (
     <GridItem w='100%' h='800px' bg='teal.50' colSpan={2}>
-        {leagueUsers.map((user) => (
-          <Box key={user.user_id}>
-            {user.display_name}
+        {leagueUsers.map((player) => (
+          <Box key={player.player_id}>
+            {player.metadata.first_name} {player.metadata.last_name} {player.player_id}
           </Box>
         ))}
     </GridItem>
