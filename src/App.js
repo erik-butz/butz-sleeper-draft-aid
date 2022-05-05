@@ -1,13 +1,16 @@
-import DraftBoard from "./components/DraftBoard";
-import PlayerRankings from "./components/PlayerRankings";
+import DraftBoard from './components/DraftBoard'
+import PlayerRankings from './components/PlayerRankings'
+import { Grid, GridItem } from '@chakra-ui/react'
 
 function App() {
   return (
     <div>
-      <DraftBoard></DraftBoard>
-      <PlayerRankings></PlayerRankings>
+      <Grid templateColumns='repeat(6, 1fr)' color='green' gap='2' >
+        <DraftBoard></DraftBoard>
+        <PlayerRankings></PlayerRankings>
+      </Grid>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

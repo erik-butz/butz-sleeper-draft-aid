@@ -1,12 +1,12 @@
 import React from 'react'
-import { Container } from '@chakra-ui/react'
+import { GridItem } from '@chakra-ui/react'
 import '../index.css'
 
 function DraftBoard() {
   return (
-    <Container className='DraftBoard'>
-      <div>DrraftBoard</div>
-    </Container>
+    <GridItem w='100%' h='800px' bg='orange.400' colSpan={4}> 
+      <div>DraftBoard</div>
+    </GridItem>
   )
 }
 
