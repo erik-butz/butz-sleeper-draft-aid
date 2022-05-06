@@ -1,6 +1,6 @@
 import DraftBoard from './components/DraftBoard'
 import PlayerRankings from './components/PlayerRankings'
-import { Grid, GridItem } from '@chakra-ui/react'
+import { Grid } from '@chakra-ui/react'
 
 function App() {
   return (
