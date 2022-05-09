@@ -2,6 +2,8 @@ const express = require('express')
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/'
 const fetch = require('node-fetch')
+const axios = require('axios')
+const cheerio = require('cheerio')
 
 const app = express()
 
@@ -29,7 +31,7 @@ MongoClient.connect(
 )
 
 app.get('/fetchAllPlayers', (req, res) => {
-
+  console.log('Fetch All Sleeper Players Endpoint')
   db.collection(collectionName).drop((err, result) => {
     if (err) {
       console.log(`ERROR DROPPING collection ${collectionName}`)
@@ -57,9 +59,10 @@ app.get('/fetchAllPlayers', (req, res) => {
 })
 
 app.get('/fetchPlayer', (req, res) => {
+  console.log('Fetch Player Endpoint')
   const playerQueryId = req.query.id
   const query = {
-    'player_id': `${playerQueryId}`
+    player_id: `${playerQueryId}`,
   }
 
   const fetchUserByPlayerId = async () => {
@@ -68,6 +71,37 @@ app.get('/fetchPlayer', (req, res) => {
     res.send(foundPlayer)
   }
   fetchUserByPlayerId()
+})
+
+app.get('/rankings', (req, res) => {
+  console.log('Rankings Endpoint')
+
+  const extractLinks = ($) => [
+    $('.onePlayer')
+      .map((_, player) => {
+        const $player = $(player)
+        return {
+          PlayerName: $player.find('.player-name a').text(),
+          Rank: $player.find('.rank-number p').text(),
+          Position: $player
+            .find('.position-team .position')
+            .text()
+            .substring(0, 2),
+          Team: $player.find('.player-name .player-team').text(),
+          Tier: $player.find('.player-info p').text(),
+          PlayerValue: $player.find('.value p').text(),
+        }
+      })
+      .toArray(),
+  ]
+
+  axios
+    .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
+    .then(({ data }) => {
+      const $ = cheerio.load(data)
+      const playerNames = extractLinks($)
+      res.send(playerNames)
+    })
 })
 
 app.listen(3000, () => console.log('Server Ready and Running'))

@@ -7,7 +7,7 @@ function PlayerRankings() {
   //WB League
   //const leagueId = '730849095425609728'
   //Dynasty League
-  const draftId = '827766781534920704'
+  const draftId = '829094498939301888'
   const url = `https://api.sleeper.app/v1/draft/${draftId}/picks`
   const fetchUsers = async () => {
     const response = await fetch(url)
