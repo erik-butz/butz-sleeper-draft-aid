@@ -78,7 +78,7 @@ app.get('/fetchPlayer', (req, res) => {
 app.get('/rankings', (req, res) => {
   console.log('Rankings Endpoint')
 
-  
+
 
   const extractLinks = ($) => [
     $('.onePlayer')
@@ -103,26 +103,16 @@ app.get('/rankings', (req, res) => {
     .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
     .then(({ data }) => {
       const $ = cheerio.load(data)
-      const playerNames = extractLinks($)
-      const flattenedPlayerNames = _.flatten(playerNames)
+      const playerNames = _.flatten((extractLinks($)))
+      // const flattenedPlayerNames = _.flatten(playerNames)
 
       const workbook = reader.utils.book_new()
-      const ws = reader.utils.json_to_sheet(flattenedPlayerNames)
+      const ws = reader.utils.json_to_sheet(playerNames)
       reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+      reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
 
-
-      // const worksheet = workbook.Sheets['Rankings']
-      // const test =  reader.utils.json_to_sheet(playerNames,['PlayerRankings'])
-      // reader.utils.sheet_add_aoa(test, playerNames)
-      reader.writeFileXLSX(workbook, 'KTCData.xlsx', {type: 'file'})
-
-      res.send(flattenedPlayerNames)
+      res.send(playerNames)
     })
-
-
-    //excel stuff here
-
-
 })
 
 app.listen(3000, () => console.log('Server Ready and Running'))
