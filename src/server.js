@@ -60,7 +60,7 @@ app.get('/fetchAllPlayers', (req, res) => {
   fetchUsers()
 })
 
-app.get('/fetchPlayer', (req, res) => {
+app.get('/fetchPlayerById', (req, res) => {
   console.log('Fetch Player Endpoint')
   const playerQueryId = req.query.id
   const query = {
@@ -75,10 +75,23 @@ app.get('/fetchPlayer', (req, res) => {
   fetchUserByPlayerId()
 })
 
+app.get('/fetchPlayerByFullName', (req, res) => {
+  console.log('Fetch Player Endpoint')
+  const playerQueryId = req.query.name
+  const query = {
+    full_name: `${playerQueryId}`,
+  }
+
+  const fetchUserByPlayerId = async () => {
+    console.log('Inside fetchUserByPlayerId')
+    const foundPlayer = await players.find(query).toArray()
+    res.send(foundPlayer)
+  }
+  fetchUserByPlayerId()
+})
+
 app.get('/rankings', (req, res) => {
   console.log('Rankings Endpoint')
-
-
 
   const extractLinks = ($) => [
     $('.onePlayer')
@@ -96,23 +109,40 @@ app.get('/rankings', (req, res) => {
           PlayerValue: $player.find('.value p').text(),
         }
       })
-      .get(),
+      .toArray(),
   ]
 
-  axios
-    .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
-    .then(({ data }) => {
-      const $ = cheerio.load(data)
-      const playerNames = _.flatten((extractLinks($)))
-      // const flattenedPlayerNames = _.flatten(playerNames)
+  keepTradeCutCall()
 
-      const workbook = reader.utils.book_new()
-      const ws = reader.utils.json_to_sheet(playerNames)
-      reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
-      reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+  // const fetchUserByPlayerName = async (playerName) => {
+  //   const url = `http://localhost:3000/fetchPlayerByFullName?name=${playerName}`
+  //   axios.get(url)
+  //     .then(({ playerData }) => {
+  //       //console.log(playerData)
+  //     })
+  // }
 
-      res.send(playerNames)
-    })
+  function keepTradeCutCall() {
+    axios
+      .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
+      .then(({ data }) => {
+        const $ = cheerio.load(data)
+        const playerNames = _.flatten((extractLinks($)))
+        // for (let i = 0; i < playerNames.length; i++) {
+        //   const playerName = playerNames[i].PlayerName.replace(' ', '%20')
+        //   fetchUserByPlayerName(playerName)
+        // }
+        createExcelWorkbook(playerNames)
+      })
+  }
+
+  function createExcelWorkbook(playerNames) {
+    const workbook = reader.utils.book_new()
+    const ws = reader.utils.json_to_sheet(playerNames)
+    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+    res.send(playerNames)
+  }
 })
 
 app.listen(3000, () => console.log('Server Ready and Running'))
