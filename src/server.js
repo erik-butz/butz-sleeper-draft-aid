@@ -4,6 +4,8 @@ const url = 'mongodb://localhost:27017/'
 const fetch = require('node-fetch')
 const axios = require('axios')
 const cheerio = require('cheerio')
+const reader = require('xlsx')
+const _ = require('lodash')
 
 const app = express()
 
@@ -76,6 +78,8 @@ app.get('/fetchPlayer', (req, res) => {
 app.get('/rankings', (req, res) => {
   console.log('Rankings Endpoint')
 
+  
+
   const extractLinks = ($) => [
     $('.onePlayer')
       .map((_, player) => {
@@ -92,7 +96,7 @@ app.get('/rankings', (req, res) => {
           PlayerValue: $player.find('.value p').text(),
         }
       })
-      .toArray(),
+      .get(),
   ]
 
   axios
@@ -100,8 +104,25 @@ app.get('/rankings', (req, res) => {
     .then(({ data }) => {
       const $ = cheerio.load(data)
       const playerNames = extractLinks($)
-      res.send(playerNames)
+      const flattenedPlayerNames = _.flatten(playerNames)
+
+      const workbook = reader.utils.book_new()
+      const ws = reader.utils.json_to_sheet(flattenedPlayerNames)
+      reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+
+
+      // const worksheet = workbook.Sheets['Rankings']
+      // const test =  reader.utils.json_to_sheet(playerNames,['PlayerRankings'])
+      // reader.utils.sheet_add_aoa(test, playerNames)
+      reader.writeFileXLSX(workbook, 'KTCData.xlsx', {type: 'file'})
+
+      res.send(flattenedPlayerNames)
     })
+
+
+    //excel stuff here
+
+
 })
 
 app.listen(3000, () => console.log('Server Ready and Running'))
