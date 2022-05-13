@@ -82,12 +82,12 @@ app.get('/fetchPlayerByFullName', (req, res) => {
     full_name: `${playerQueryId}`,
   }
 
-  const fetchUserByPlayerId = async () => {
+  const fetchUserByPlayerByFullName = async () => {
     console.log('Inside fetchUserByPlayerId')
     const foundPlayer = await players.find(query).toArray()
     res.send(foundPlayer)
   }
-  fetchUserByPlayerId()
+  fetchUserByPlayerByFullName()
 })
 
 app.get('/rankings', (req, res) => {
@@ -114,13 +114,13 @@ app.get('/rankings', (req, res) => {
 
   keepTradeCutCall()
 
-  // const fetchUserByPlayerName = async (playerName) => {
-  //   const url = `http://localhost:3000/fetchPlayerByFullName?name=${playerName}`
-  //   axios.get(url)
-  //     .then(({ playerData }) => {
-  //       //console.log(playerData)
-  //     })
-  // }
+  const fetchUserByPlayerName = async (playerName) => {
+    const url = `http://localhost:3000/fetchPlayerByFullName?name=${playerName}`
+    const playerData = await axios.get(url).catch(() => {
+      return 'ERROR'
+    })
+    return playerData
+  }
 
   function keepTradeCutCall() {
     axios
@@ -128,10 +128,10 @@ app.get('/rankings', (req, res) => {
       .then(({ data }) => {
         const $ = cheerio.load(data)
         const playerNames = _.flatten((extractLinks($)))
-        // for (let i = 0; i < playerNames.length; i++) {
-        //   const playerName = playerNames[i].PlayerName.replace(' ', '%20')
-        //   fetchUserByPlayerName(playerName)
-        // }
+        for (let i = 0; i < playerNames.length; i++) {
+          const playerName = playerNames[i].PlayerName.replace(' ', '%20')
+          fetchUserByPlayerName(playerName)
+        }
         createExcelWorkbook(playerNames)
       })
   }
