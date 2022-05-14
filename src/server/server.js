@@ -60,38 +60,44 @@ app.get('/fetchAllPlayers', (req, res) => {
   fetchUsers()
 })
 
-app.get('/fetchPlayerById', (req, res) => {
-  console.log('Fetch Player Endpoint')
-  const playerQueryId = req.query.id
-  const query = {
-    player_id: `${playerQueryId}`,
-  }
-
-  const fetchUserByPlayerId = async () => {
-    console.log('Inside fetchUserByPlayerId')
-    const foundPlayer = await players.find(query).toArray()
-    res.send(foundPlayer)
-  }
-  fetchUserByPlayerId()
-})
-
-app.get('/fetchPlayerByFullName', (req, res) => {
-  console.log('Fetch Player Endpoint')
-  const playerQueryId = req.query.name
-  const query = {
-    full_name: `${playerQueryId}`,
-  }
-
-  const fetchUserByPlayerByFullName = async () => {
-    console.log('Inside fetchUserByPlayerId')
-    const foundPlayer = await players.find(query).toArray()
-    res.send(foundPlayer)
-  }
-  fetchUserByPlayerByFullName()
-})
-
 app.get('/rankings', (req, res) => {
   console.log('Rankings Endpoint')
+  const keepTradeCutCall = async () => {
+    axios
+      .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
+      .then(({ data }) => {
+        const $ = cheerio.load(data)
+        const playerNames = _.flatten((extractLinks($)))
+        for (let i = 0; i < playerNames.length; i++) {
+          const playerName = playerNames[i].PlayerName//.replace(' ', '%20')
+          fetchUserByPlayerName(playerName).then(
+            console.log('TESTING')
+          )
+        }
+        createExcelWorkbook(playerNames)
+      })
+  }
+
+  const fetchUserByPlayerName = async (playerName) => {
+
+    console.log('Inside fetchUserByPlayerName')
+    const query = {
+      full_name: `${playerName}`,
+    }
+
+    const foundPlayer = await players.find(query).toArray().then(() => {
+      console.log(foundPlayer)
+      return foundPlayer
+    })
+  }
+
+  function createExcelWorkbook(playerNames) {
+    const workbook = reader.utils.book_new()
+    const ws = reader.utils.json_to_sheet(playerNames)
+    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+    res.send(playerNames)
+  }
 
   const extractLinks = ($) => [
     $('.onePlayer')
@@ -113,36 +119,19 @@ app.get('/rankings', (req, res) => {
   ]
 
   keepTradeCutCall()
-
-  const fetchUserByPlayerName = async (playerName) => {
-    const url = `http://localhost:3000/fetchPlayerByFullName?name=${playerName}`
-    const playerData = await axios.get(url).catch(() => {
-      return 'ERROR'
-    })
-    return playerData
-  }
-
-  function keepTradeCutCall() {
-    axios
-      .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
-      .then(({ data }) => {
-        const $ = cheerio.load(data)
-        const playerNames = _.flatten((extractLinks($)))
-        for (let i = 0; i < playerNames.length; i++) {
-          const playerName = playerNames[i].PlayerName.replace(' ', '%20')
-          fetchUserByPlayerName(playerName)
-        }
-        createExcelWorkbook(playerNames)
-      })
-  }
-
-  function createExcelWorkbook(playerNames) {
-    const workbook = reader.utils.book_new()
-    const ws = reader.utils.json_to_sheet(playerNames)
-    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
-    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    res.send(playerNames)
-  }
 })
+
+
+
+
+function fetchPlayerById(id) {
+  console.log('Fetch Player Endpoint')
+  const query = {
+    player_id: `${id}`,
+  }
+  console.log('Inside fetchPlayerById')
+  const foundPlayer = players.find(query).toArray()
+  return foundPlayer
+}
 
 app.listen(3000, () => console.log('Server Ready and Running'))
