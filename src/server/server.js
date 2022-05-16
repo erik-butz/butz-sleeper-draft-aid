@@ -67,28 +67,32 @@ app.get('/rankings', (req, res) => {
       .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
       .then(({ data }) => {
         const $ = cheerio.load(data)
-        const playerNames = _.flatten((extractLinks($)))
-        for (let i = 0; i < playerNames.length; i++) {
-          const playerName = playerNames[i].PlayerName//.replace(' ', '%20')
-          fetchUserByPlayerName(playerName).then(
-            console.log('TESTING')
-          )
-        }
-        createExcelWorkbook(playerNames)
+        const playerNames = _.flatten(extractLinks($))
+        fetchUserByPlayerName(playerNames)
       })
   }
 
-  const fetchUserByPlayerName = async (playerName) => {
-
+  const fetchUserByPlayerName = async (playerNames) => {
     console.log('Inside fetchUserByPlayerName')
-    const query = {
-      full_name: `${playerName}`,
-    }
 
-    const foundPlayer = await players.find(query).toArray().then(() => {
+    for (let i = 0; i < playerNames.length; i++) {
+      const playerName = playerNames[i].PlayerName
+
+      const query = {
+        full_name: `${playerName}`,
+      }
+
+      const fieldsToQuery = {
+        player_id: 1,
+        full_name: 1,
+      }
+
+      const foundPlayer = await players
+        .find(query)
+        .project(fieldsToQuery)
+        .toArray()
       console.log(foundPlayer)
-      return foundPlayer
-    })
+    }
   }
 
   function createExcelWorkbook(playerNames) {
@@ -96,7 +100,6 @@ app.get('/rankings', (req, res) => {
     const ws = reader.utils.json_to_sheet(playerNames)
     reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
     reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    res.send(playerNames)
   }
 
   const extractLinks = ($) => [
@@ -120,9 +123,6 @@ app.get('/rankings', (req, res) => {
 
   keepTradeCutCall()
 })
-
-
-
 
 function fetchPlayerById(id) {
   console.log('Fetch Player Endpoint')
