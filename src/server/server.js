@@ -60,38 +60,67 @@ app.get('/fetchAllPlayers', (req, res) => {
   fetchUsers()
 })
 
-app.get('/fetchPlayerById', (req, res) => {
-  console.log('Fetch Player Endpoint')
-  const playerQueryId = req.query.id
-  const query = {
-    player_id: `${playerQueryId}`,
-  }
-
-  const fetchUserByPlayerId = async () => {
-    console.log('Inside fetchUserByPlayerId')
-    const foundPlayer = await players.find(query).toArray()
-    res.send(foundPlayer)
-  }
-  fetchUserByPlayerId()
-})
-
-app.get('/fetchPlayerByFullName', (req, res) => {
-  console.log('Fetch Player Endpoint')
-  const playerQueryId = req.query.name
-  const query = {
-    full_name: `${playerQueryId}`,
-  }
-
-  const fetchUserByPlayerId = async () => {
-    console.log('Inside fetchUserByPlayerId')
-    const foundPlayer = await players.find(query).toArray()
-    res.send(foundPlayer)
-  }
-  fetchUserByPlayerId()
-})
-
 app.get('/rankings', (req, res) => {
   console.log('Rankings Endpoint')
+  const keepTradeCutCall = async () => {
+    axios
+      .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
+      .then(({ data }) => {
+        const $ = cheerio.load(data)
+        const playerNames = _.flatten(extractLinks($))
+        fetchUserByPlayerName(playerNames)
+      })
+  }
+
+  const fetchUserByPlayerName = async (playerNames) => {
+    console.log('Inside fetchUserByPlayerName')
+
+    try {
+      for (let i = 0; i < playerNames.length; i++) {
+        let playerName = playerNames[i].PlayerName
+
+        //Custom switch statements for different names on site vs in mongodb db
+        switch (playerName) {
+          case 'Kenneth Walker III':
+            playerName = 'Kenneth Walker'
+            break
+          case 'Pierre Strong Jr.':
+            playerName = 'Pierre Strong'
+            break
+          case 'Calvin Austin III':
+            playerName = 'Calvin Austin'
+            break
+        }
+
+        const query = {
+          full_name: `${playerName}`,
+        }
+
+        const fieldsToQuery = {
+          player_id: 1,
+          full_name: 1,
+        }
+
+        const foundPlayer = await players
+          .find(query)
+          .project(fieldsToQuery)
+          .toArray()
+        playerNames[i].player_id = await foundPlayer[0].player_id
+
+      }
+      const tempVariable = await createExcelWorkbook(playerNames)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  function createExcelWorkbook(playerNames) {
+    const workbook = reader.utils.book_new()
+    const ws = reader.utils.json_to_sheet(playerNames)
+    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+    res.sendStatus(200)
+  }
 
   const extractLinks = ($) => [
     $('.onePlayer')
@@ -113,36 +142,16 @@ app.get('/rankings', (req, res) => {
   ]
 
   keepTradeCutCall()
-
-  // const fetchUserByPlayerName = async (playerName) => {
-  //   const url = `http://localhost:3000/fetchPlayerByFullName?name=${playerName}`
-  //   axios.get(url)
-  //     .then(({ playerData }) => {
-  //       //console.log(playerData)
-  //     })
-  // }
-
-  function keepTradeCutCall() {
-    axios
-      .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
-      .then(({ data }) => {
-        const $ = cheerio.load(data)
-        const playerNames = _.flatten((extractLinks($)))
-        // for (let i = 0; i < playerNames.length; i++) {
-        //   const playerName = playerNames[i].PlayerName.replace(' ', '%20')
-        //   fetchUserByPlayerName(playerName)
-        // }
-        createExcelWorkbook(playerNames)
-      })
-  }
-
-  function createExcelWorkbook(playerNames) {
-    const workbook = reader.utils.book_new()
-    const ws = reader.utils.json_to_sheet(playerNames)
-    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
-    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    res.send(playerNames)
-  }
 })
+
+function fetchPlayerById(id) {
+  console.log('Fetch Player Endpoint')
+  const query = {
+    player_id: `${id}`,
+  }
+  console.log('Inside fetchPlayerById')
+  const foundPlayer = players.find(query).toArray()
+  return foundPlayer
+}
 
 app.listen(3000, () => console.log('Server Ready and Running'))
