@@ -119,7 +119,7 @@ app.get('/rankings', (req, res) => {
     const ws = reader.utils.json_to_sheet(playerNames)
     reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
     reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    res.sendStatus(200)
+    res.send(playerNames)
   }
 
   const extractLinks = ($) => [
@@ -143,15 +143,5 @@ app.get('/rankings', (req, res) => {
 
   keepTradeCutCall()
 })
-
-function fetchPlayerById(id) {
-  console.log('Fetch Player Endpoint')
-  const query = {
-    player_id: `${id}`,
-  }
-  console.log('Inside fetchPlayerById')
-  const foundPlayer = players.find(query).toArray()
-  return foundPlayer
-}
 
 app.listen(3000, () => console.log('Server Ready and Running'))
