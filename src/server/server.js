@@ -75,23 +75,42 @@ app.get('/rankings', (req, res) => {
   const fetchUserByPlayerName = async (playerNames) => {
     console.log('Inside fetchUserByPlayerName')
 
-    for (let i = 0; i < playerNames.length; i++) {
-      const playerName = playerNames[i].PlayerName
+    try {
+      for (let i = 0; i < playerNames.length; i++) {
+        let playerName = playerNames[i].PlayerName
 
-      const query = {
-        full_name: `${playerName}`,
+        //Custom switch statements for different names on site vs in mongodb db
+        switch (playerName) {
+          case 'Kenneth Walker III':
+            playerName = 'Kenneth Walker'
+            break
+          case 'Pierre Strong Jr.':
+            playerName = 'Pierre Strong'
+            break
+          case 'Calvin Austin III':
+            playerName = 'Calvin Austin'
+            break
+        }
+
+        const query = {
+          full_name: `${playerName}`,
+        }
+
+        const fieldsToQuery = {
+          player_id: 1,
+          full_name: 1,
+        }
+
+        const foundPlayer = await players
+          .find(query)
+          .project(fieldsToQuery)
+          .toArray()
+        playerNames[i].player_id = await foundPlayer[0].player_id
+
       }
-
-      const fieldsToQuery = {
-        player_id: 1,
-        full_name: 1,
-      }
-
-      const foundPlayer = await players
-        .find(query)
-        .project(fieldsToQuery)
-        .toArray()
-      console.log(foundPlayer)
+      const tempVariable = await createExcelWorkbook(playerNames)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -100,6 +119,7 @@ app.get('/rankings', (req, res) => {
     const ws = reader.utils.json_to_sheet(playerNames)
     reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
     reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+    res.sendStatus(200)
   }
 
   const extractLinks = ($) => [
