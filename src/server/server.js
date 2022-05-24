@@ -1,12 +1,13 @@
 const express = require('express')
 const MongoClient = require('mongodb').MongoClient
-const url = 'mongodb://localhost:27017/'
 const fetch = require('node-fetch')
 const axios = require('axios')
 const cheerio = require('cheerio')
 const reader = require('xlsx')
 const _ = require('lodash')
+require('dotenv').config()
 
+const url = `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
 const app = express()
 
 let db, players
