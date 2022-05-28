@@ -91,6 +91,8 @@ app.get('/ktcRookieRankings', (req, res) => {
           case 'Calvin Austin III':
             playerName = 'Calvin Austin'
             break
+          default:
+            break
         }
 
         const query = {
