@@ -61,7 +61,7 @@ app.get('/fetchAllPlayers', (req, res) => {
   fetchUsers()
 })
 
-app.get('/rankings', (req, res) => {
+app.get('/ktcRookieRankings', (req, res) => {
   console.log('Rankings Endpoint')
   const keepTradeCutCall = async () => {
     axios
