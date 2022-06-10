@@ -8,6 +8,7 @@ const _ = require('lodash')
 require('dotenv').config()
 
 const url = `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
+//const url = 'mongodb://localhost:27017'
 const app = express()
 
 let db, players
@@ -75,10 +76,10 @@ app.get('/ktcRookieRankings', (req, res) => {
 
   const fetchUserByPlayerName = async (playerNames) => {
     console.log('Inside fetchUserByPlayerName')
-
     try {
       for (let i = 0; i < playerNames.length; i++) {
         let playerName = playerNames[i].PlayerName
+        console.log(playerName)
 
         //Custom switch statements for different names on site vs in mongodb db
         switch (playerName) {
@@ -91,6 +92,8 @@ app.get('/ktcRookieRankings', (req, res) => {
           case 'Calvin Austin III':
             playerName = 'Calvin Austin'
             break
+          case 'Isiah Pacheco':
+            playerName = 'Isaih Pacheco'
           default:
             break
         }
@@ -108,10 +111,11 @@ app.get('/ktcRookieRankings', (req, res) => {
           .find(query)
           .project(fieldsToQuery)
           .toArray()
+        console.log(foundPlayer)
         playerNames[i].player_id = await foundPlayer[0].player_id
 
       }
-      const tempVariable = await createExcelWorkbook(playerNames)
+      createExcelWorkbook(playerNames)
     } catch (err) {
       console.log(err)
     }
@@ -122,7 +126,7 @@ app.get('/ktcRookieRankings', (req, res) => {
     const ws = reader.utils.json_to_sheet(playerNames)
     reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
     reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    res.send(playerNames)
+    res.status(200).json(playerNames)
   }
 
   const extractLinks = ($) => [
