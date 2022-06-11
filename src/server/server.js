@@ -11,6 +11,8 @@ const url = `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@$
 //const url = 'mongodb://localhost:27017'
 const app = express()
 
+app.use(express.json())
+
 let db, players
 let collectionName = 'AllPlayers'
 
@@ -62,8 +64,9 @@ app.get('/fetchAllPlayers', (req, res) => {
   fetchUsers()
 })
 
-app.get('/ktcRookieRankings', (req, res) => {
+app.get('/rankings', (req, res) => {
   console.log('Rankings Endpoint')
+
   const keepTradeCutCall = async () => {
     axios
       .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
@@ -113,7 +116,6 @@ app.get('/ktcRookieRankings', (req, res) => {
           .toArray()
         console.log(foundPlayer)
         playerNames[i].player_id = await foundPlayer[0].player_id
-
       }
       createExcelWorkbook(playerNames)
     } catch (err) {
@@ -122,11 +124,15 @@ app.get('/ktcRookieRankings', (req, res) => {
   }
 
   function createExcelWorkbook(playerNames) {
-    const workbook = reader.utils.book_new()
-    const ws = reader.utils.json_to_sheet(playerNames)
-    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
-    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    res.status(200).json(playerNames)
+    try {
+      const workbook = reader.utils.book_new()
+      const ws = reader.utils.json_to_sheet(playerNames)
+      reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+      reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+      res.status(200).json(playerNames)
+    } catch (error) {
+      res.status(500, `Creating Excel Workbook Failed: ${error.message}`)
+    }
   }
 
   const extractLinks = ($) => [
@@ -148,7 +154,12 @@ app.get('/ktcRookieRankings', (req, res) => {
       .toArray(),
   ]
 
-  keepTradeCutCall()
+  if (req.body.rankings === 'ktc'.toLocaleLowerCase()) {
+    console.log('KTC!!!')
+    keepTradeCutCall()
+  } else {
+    res.send(200, 'No Rankings Found')
+  }
 })
 
-app.listen(3000, () => console.log('Server Ready and Running'))
+app.listen(8000, () => console.log('Server Ready and Running'))

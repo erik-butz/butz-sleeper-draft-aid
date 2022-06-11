@@ -1,4 +1,4 @@
-import { GridItem, Box } from '@chakra-ui/react'
+import { GridItem, Box, Heading } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
 function PlayerRankings() {
@@ -21,7 +21,8 @@ function PlayerRankings() {
   }, [])
 
   return (
-    <GridItem w='100%' h='800px' bg='teal.50' colSpan={2}>
+    <GridItem w='100%' h='100%' bg='teal.50' colSpan={2}>
+      <Heading>Overall Rankings</Heading>
       {!leagueUsers.length ? 'Loading....' : leagueUsers.map((player) => (
         <Box key={player.player_id}>
           {player.metadata.first_name} {player.metadata.last_name} {player.player_id}
