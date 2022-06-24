@@ -37,7 +37,7 @@ MongoClient.connect(
 )
 
 app.get('/fetchAllPlayers', (req, res) => {
-  console.log('Fetch All Sleeper Players Endpoint')
+  console.log('Fetch All Players Endpoint')
   db.collection(collectionName).drop((err, result) => {
     if (err) {
       console.log(`ERROR DROPPING collection ${collectionName}`)
@@ -82,7 +82,6 @@ app.get('/rankings', (req, res) => {
     try {
       for (let i = 0; i < playerNames.length; i++) {
         let playerName = playerNames[i].PlayerName
-        console.log(playerName)
 
         //Custom switch statements for different names on site vs in mongodb db
         switch (playerName) {
@@ -110,11 +109,13 @@ app.get('/rankings', (req, res) => {
           full_name: 1,
         }
 
+        //console.log(playerName)
         const foundPlayer = await players
           .find(query)
           .project(fieldsToQuery)
           .toArray()
-        console.log(foundPlayer)
+        //Uncomment when player errors (to figure out difference in player names of call vs sleeper)
+        //console.log(foundPlayer)
         playerNames[i].player_id = await foundPlayer[0].player_id
       }
       createExcelWorkbook(playerNames)
@@ -123,7 +124,7 @@ app.get('/rankings', (req, res) => {
     }
   }
 
-  function createExcelWorkbook(playerNames) {
+  const createExcelWorkbook = (playerNames) => {
     try {
       const workbook = reader.utils.book_new()
       const ws = reader.utils.json_to_sheet(playerNames)
