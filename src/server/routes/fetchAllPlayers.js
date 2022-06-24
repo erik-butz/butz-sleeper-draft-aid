@@ -1,5 +1,5 @@
-const { Router } = require('express')
 const MongoClient = require('mongodb').MongoClient
+const { Router } = require('express')
 const fetch = require('node-fetch')
 const router = Router()
 require('dotenv').config()
