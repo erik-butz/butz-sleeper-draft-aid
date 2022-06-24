@@ -34,7 +34,7 @@ MongoClient.connect(
   }
 )
 
-app.get('/fetchAllPlayers', (req, res) => {
+app.get('/fetchAllPlayers', (_req, res) => {
   console.log('Fetch All Sleeper Players Endpoint')
   db.collection(collectionName).drop((err, result) => {
     if (err) {
@@ -58,11 +58,10 @@ app.get('/fetchAllPlayers', (req, res) => {
     }
     res.status(200).json(data)
   }
-
   fetchUsers()
 })
 
-app.get('/ktcRookieRankings', (req, res) => {
+app.get('/ktcRookieRankings', (_req, res) => {
   console.log('Rankings Endpoint')
   const keepTradeCutCall = async () => {
     axios
@@ -77,9 +76,9 @@ app.get('/ktcRookieRankings', (req, res) => {
   const fetchUserByPlayerName = async (playerNames) => {
     console.log('Inside fetchUserByPlayerName')
     try {
-      for (let i = 0; i < playerNames.length; i++) {
-        let playerName = playerNames[i].PlayerName
-        console.log(playerName)
+      for (const element of playerNames) {
+        let playerName = element.PlayerName
+        console.log(`Searching for player: ${playerName}`)
 
         //Custom switch statements for different names on site vs in mongodb db
         switch (playerName) {
@@ -94,6 +93,7 @@ app.get('/ktcRookieRankings', (req, res) => {
             break
           case 'Isiah Pacheco':
             playerName = 'Isaih Pacheco'
+            break
           default:
             break
         }
@@ -111,13 +111,14 @@ app.get('/ktcRookieRankings', (req, res) => {
           .find(query)
           .project(fieldsToQuery)
           .toArray()
-        console.log(foundPlayer)
-        playerNames[i].player_id = await foundPlayer[0].player_id
+        console.log(`FOUND PLAYER: ${foundPlayer}`)
+        element.player_id = await foundPlayer[0].player_id
 
       }
       createExcelWorkbook(playerNames)
     } catch (err) {
       console.log(err)
+      res.status(500).json("Error in fetchUserByPlayerName")
     }
   }
 
