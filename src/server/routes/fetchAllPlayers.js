@@ -8,14 +8,14 @@ router.get('/', (_req, res) => {
 
   console.log('Fetch All Sleeper Players Endpoint')
   const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
-  const collectionName = 'AllPlayers'
   let players;
+  const collectionName = 'AllPlayers'
 
   const fetchUsers = async () => {
 
-    const db = await mongoUtil.connectToMongoDb()
-    players = await db.collection(collectionName)
+    const db = await mongoUtil.getDb()
     //Collection (Table) Name in MongoDB
+    players = await db.collection(collectionName)
 
     await db.collection(collectionName).drop((err, result) => {
       if (err) {
