@@ -1,7 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 
 let db
-const collectionName = 'AllPlayers'
 
 const connectToMongoDb = () => {
   const url = `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
@@ -21,8 +20,6 @@ const connectToMongoDb = () => {
         }
         //Database Name
         db = client.db('SleeperNflPlayers')
-        //Collection (Table) Name in MongoDB
-        players = db.collection(collectionName)
       }
     )
   } catch (error) {

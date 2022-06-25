@@ -1,4 +1,3 @@
-const MongoClient = require('mongodb').MongoClient
 const { Router } = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
@@ -27,7 +26,6 @@ router.get('/', (_req, res) => {
   const fetchUserByPlayerName = async (playerNames) => {
     console.log('Inside fetchUserByPlayerName')
     try {
-
       const db = await mongoUtil.getDb()
       //Collection (Table) Name in MongoDB
       players = await db.collection(collectionName)

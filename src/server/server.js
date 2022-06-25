@@ -9,7 +9,6 @@ app.use(express.json())
 MongoDb.connectToMongoDb()
 
 const ktcRookieRankings = require('./routes/ktcRookieRankings')
-const add = require('./helper/mongoUtil')
 
 app.use('/fetchAllPlayers', fetchAllPlayers)
 app.use('/ktcRookieRankings', ktcRookieRankings)

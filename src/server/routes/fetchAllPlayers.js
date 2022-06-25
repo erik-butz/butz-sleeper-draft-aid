@@ -5,21 +5,19 @@ const mongoUtil = require('../helper/mongoUtil')
 require('dotenv').config()
 
 router.get('/', (_req, res) => {
-
   console.log('Fetch All Sleeper Players Endpoint')
   const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
-  let players;
+  let players
   const collectionName = 'AllPlayers'
 
   const fetchUsers = async () => {
-
     const db = await mongoUtil.getDb()
     //Collection (Table) Name in MongoDB
     players = await db.collection(collectionName)
 
     await db.collection(collectionName).drop((err, result) => {
       if (err) {
-        console.log(`ERROR DROPPING collection ${collectionName}`)
+        console.log(`Error dropping collection ${collectionName}`)
       } else {
         console.log(result)
       }
