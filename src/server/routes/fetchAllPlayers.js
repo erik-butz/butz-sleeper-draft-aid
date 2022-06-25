@@ -1,47 +1,28 @@
-const MongoClient = require('mongodb').MongoClient
 const { Router } = require('express')
 const fetch = require('node-fetch')
 const router = Router()
+const mongoUtil = require('../helper/mongoUtil')
 require('dotenv').config()
 
-const url = `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
-
-let db, players
-const collectionName = 'AllPlayers'
-
-MongoClient.connect(
-  url,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err, client) => {
-    if (err) {
-      console.log(err)
-      return
-    } else {
-      console.log('Mongodb Connection Successful in fetchAllPlayers!')
-    }
-    //Database Name
-    db = client.db('SleeperNflPlayers')
-    //Collection (Table) Name in MongoDB
-    players = db.collection(collectionName)
-  }
-)
-
 router.get('/', (_req, res) => {
-
   console.log('Fetch All Sleeper Players Endpoint')
-  db.collection(collectionName).drop((err, result) => {
-    if (err) {
-      console.log(`ERROR DROPPING collection ${collectionName}`)
-    } else {
-      console.log(result)
-    }
-  })
-
   const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
+  let players
+  const collectionName = 'AllPlayers'
+
   const fetchUsers = async () => {
+    const db = await mongoUtil.getDb()
+    //Collection (Table) Name in MongoDB
+    players = await db.collection(collectionName)
+
+    await db.collection(collectionName).drop((err, result) => {
+      if (err) {
+        console.log(`Error dropping collection ${collectionName}`)
+      } else {
+        console.log(result)
+      }
+    })
+
     const response = await fetch(nflPlayersUrl)
     const data = await response.json()
 

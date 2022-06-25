@@ -1,40 +1,18 @@
-const MongoClient = require('mongodb').MongoClient
 const { Router } = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
 const reader = require('xlsx')
 const _ = require('lodash')
 const router = Router()
+const mongoUtil = require('../helper/mongoUtil')
 require('dotenv').config()
 
-const url = `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
-//const url = 'mongodb://localhost:27017'
-
-let db, players
+let players
 const collectionName = 'AllPlayers'
-
-MongoClient.connect(
-  url,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err, client) => {
-    if (err) {
-      console.log(err)
-      return
-    } else {
-      console.log('Mongodb Connection Successful in ktcRookieRankings!')
-    }
-    //Database Name
-    db = client.db('SleeperNflPlayers')
-    //Collection (Table) Name in MongoDB
-    players = db.collection(collectionName)
-  }
-)
 
 router.get('/', (_req, res) => {
   console.log('Rankings Endpoint')
+
   const keepTradeCutCall = async () => {
     axios
       .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
@@ -48,6 +26,10 @@ router.get('/', (_req, res) => {
   const fetchUserByPlayerName = async (playerNames) => {
     console.log('Inside fetchUserByPlayerName')
     try {
+      const db = await mongoUtil.getDb()
+      //Collection (Table) Name in MongoDB
+      players = await db.collection(collectionName)
+
       for (const element of playerNames) {
         let playerName = element.PlayerName
         //console.log(`Searching for player: ${playerName}`)
@@ -85,12 +67,11 @@ router.get('/', (_req, res) => {
           .toArray()
         //console.log(`FOUND PLAYER: ${foundPlayer}`)
         element.player_id = await foundPlayer[0].player_id
-
       }
       createExcelWorkbook(playerNames)
     } catch (err) {
       console.log(err)
-      res.status(500).json("Error in fetchUserByPlayerName")
+      res.status(500).json('Error in fetchUserByPlayerName')
     }
   }
 
@@ -99,7 +80,9 @@ router.get('/', (_req, res) => {
     const ws = reader.utils.json_to_sheet(playerNames)
     reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
     reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    return res.status(200).json({ message: 'Successfully created ktcRookieRankings Spreadsheet' })
+    return res
+      .status(200)
+      .json({ message: 'Successfully created ktcRookieRankings Spreadsheet' })
   }
 
   const extractLinks = ($) => [

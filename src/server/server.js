@@ -1,9 +1,13 @@
 const express = require('express')
+const MongoDb = require('./helper/mongoUtil')
+const fetchAllPlayers = require('./routes/fetchAllPlayers')
 
 const app = express()
 app.use(express.json())
 
-const fetchAllPlayers = require('./routes/fetchAllPlayers')
+//Connecting to MongoDB
+MongoDb.connectToMongoDb()
+
 const ktcRookieRankings = require('./routes/ktcRookieRankings')
 
 app.use('/fetchAllPlayers', fetchAllPlayers)
