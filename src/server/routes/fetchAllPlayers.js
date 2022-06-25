@@ -4,6 +4,9 @@ const router = Router()
 const mongoUtil = require('../helper/mongoUtil')
 require('dotenv').config()
 
+//TODO: Look into this 
+//https://stackoverflow.com/questions/24122981/how-to-stop-insertion-of-duplicate-documents-in-a-mongodb-collection
+
 router.get('/', (_req, res) => {
   console.log('Fetch All Sleeper Players Endpoint')
   const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
