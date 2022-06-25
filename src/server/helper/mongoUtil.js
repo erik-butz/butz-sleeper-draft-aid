@@ -23,6 +23,7 @@ const connectToMongoDb = () => {
       }
     )
   } catch (error) {
+    console.log('Error connecting to MongoDb ' + error.toString())
     throw error
   }
 }

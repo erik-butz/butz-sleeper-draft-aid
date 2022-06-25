@@ -32,7 +32,7 @@ router.get('/', (_req, res) => {
 
       for (const element of playerNames) {
         let playerName = element.PlayerName
-        //console.log(`Searching for player: ${playerName}`)
+        console.log(`Searching for player: ${playerName}`)
 
         //Custom switch statements for different names on site vs in mongodb db
         switch (playerName) {
@@ -60,12 +60,12 @@ router.get('/', (_req, res) => {
           player_id: 1,
           full_name: 1,
         }
-
+        console.log('###')
         const foundPlayer = await players
           .find(query)
           .project(fieldsToQuery)
           .toArray()
-        //console.log(`FOUND PLAYER: ${foundPlayer}`)
+        console.log(`FOUND PLAYER: ${foundPlayer}`)
         element.player_id = await foundPlayer[0].player_id
       }
       createExcelWorkbook(playerNames)
@@ -87,7 +87,7 @@ router.get('/', (_req, res) => {
 
   const extractLinks = ($) => [
     $('.onePlayer')
-      .map((_, player) => {
+      .map((_a, player) => {
         const $player = $(player)
         return {
           PlayerName: $player.find('.player-name a').text(),
