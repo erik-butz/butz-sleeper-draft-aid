@@ -10,7 +10,7 @@ require('dotenv').config()
 let players
 const collectionName = 'AllPlayers'
 
-router.get('/', (_req, res) => {
+router.get('/', (req, res) => {
   console.log('Rankings Endpoint')
 
   const keepTradeCutCall = async () => {
@@ -60,12 +60,10 @@ router.get('/', (_req, res) => {
           player_id: 1,
           full_name: 1,
         }
-        console.log('###')
         const foundPlayer = await players
           .find(query)
           .project(fieldsToQuery)
           .toArray()
-        console.log(`FOUND PLAYER: ${foundPlayer}`)
         element.player_id = await foundPlayer[0].player_id
       }
       createExcelWorkbook(playerNames)
@@ -76,13 +74,17 @@ router.get('/', (_req, res) => {
   }
 
   const createExcelWorkbook = (playerNames) => {
-    const workbook = reader.utils.book_new()
-    const ws = reader.utils.json_to_sheet(playerNames)
-    reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
-    reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-    return res
-      .status(200)
-      .json({ message: 'Successfully created ktcRookieRankings Spreadsheet' })
+    try {
+      const workbook = reader.utils.book_new()
+      const ws = reader.utils.json_to_sheet(playerNames)
+      reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
+      reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
+      return res
+        .status(200)
+        .json({ message: 'Successfully created Spreadsheet' })
+    } catch (error) {
+      res.status(500, `Creating Excel Workbook Failed: ${error.message}`)
+    }
   }
 
   const extractLinks = ($) => [
@@ -103,7 +105,13 @@ router.get('/', (_req, res) => {
       })
       .toArray(),
   ]
-  keepTradeCutCall()
+
+  if (req.body.rankings === 'ktc'.toLocaleLowerCase()) {
+    console.log('KTC Flow!')
+    keepTradeCutCall()
+  } else {
+    res.send(200, 'No Rankings Found')
+  }
 })
 
 module.exports = router
