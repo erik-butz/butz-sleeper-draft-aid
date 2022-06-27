@@ -1,116 +1,29 @@
 const { Router } = require('express')
-const axios = require('axios')
-const cheerio = require('cheerio')
-const reader = require('xlsx')
-const _ = require('lodash')
 const router = Router()
-const mongoUtil = require('../helper/mongoUtil')
+const keeptradecut = require('./ktcRankings')
+const fantasyFootballersRankings = require('./fantasyFootballersRankings')
 require('dotenv').config()
 
-let players
-const collectionName = 'AllPlayers'
+//request body examples
+// {
+//   "rankings" : "ffballers/ktc",
+//   "position": "QB/RB/WR/TE/DST/K"
+// }
 
 router.get('/', (req, res) => {
   console.log('Rankings Endpoint')
 
-  const keepTradeCutCall = async () => {
-    axios
-      .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
-      .then(({ data }) => {
-        const $ = cheerio.load(data)
-        const playerNames = _.flatten(extractLinks($))
-        fetchUserByPlayerName(playerNames)
-      })
-  }
-
-  const fetchUserByPlayerName = async (playerNames) => {
-    console.log('Inside fetchUserByPlayerName')
-    try {
-      const db = await mongoUtil.getDb()
-      //Collection (Table) Name in MongoDB
-      players = await db.collection(collectionName)
-
-      for (const element of playerNames) {
-        let playerName = element.PlayerName
-        console.log(`Searching for player: ${playerName}`)
-
-        //Custom switch statements for different names on site vs in mongodb db
-        switch (playerName) {
-          case 'Kenneth Walker III':
-            playerName = 'Kenneth Walker'
-            break
-          case 'Pierre Strong Jr.':
-            playerName = 'Pierre Strong'
-            break
-          case 'Calvin Austin III':
-            playerName = 'Calvin Austin'
-            break
-          case 'Isiah Pacheco':
-            playerName = 'Isaih Pacheco'
-            break
-          default:
-            break
-        }
-
-        const query = {
-          full_name: `${playerName}`,
-        }
-
-        const fieldsToQuery = {
-          player_id: 1,
-          full_name: 1,
-        }
-        const foundPlayer = await players
-          .find(query)
-          .project(fieldsToQuery)
-          .toArray()
-        element.player_id = await foundPlayer[0].player_id
-      }
-      createExcelWorkbook(playerNames)
-    } catch (err) {
-      console.log(err)
-      res.status(500).json('Error in fetchUserByPlayerName')
-    }
-  }
-
-  const createExcelWorkbook = (playerNames) => {
-    try {
-      const workbook = reader.utils.book_new()
-      const ws = reader.utils.json_to_sheet(playerNames)
-      reader.utils.book_append_sheet(workbook, ws, 'PlayerRankings')
-      reader.writeFileXLSX(workbook, 'KTCData.xlsx', { type: 'file' })
-      return res
-        .status(200)
-        .json({ message: 'Successfully created Spreadsheet' })
-    } catch (error) {
-      res.status(500, `Creating Excel Workbook Failed: ${error.message}`)
-    }
-  }
-
-  const extractLinks = ($) => [
-    $('.onePlayer')
-      .map((_a, player) => {
-        const $player = $(player)
-        return {
-          PlayerName: $player.find('.player-name a').text(),
-          Rank: $player.find('.rank-number p').text(),
-          Position: $player
-            .find('.position-team .position')
-            .text()
-            .substring(0, 2),
-          Team: $player.find('.player-name .player-team').text(),
-          Tier: $player.find('.player-info p').text(),
-          PlayerValue: $player.find('.value p').text(),
-        }
-      })
-      .toArray(),
-  ]
-
-  if (req.body.rankings === 'ktc'.toLocaleLowerCase()) {
-    console.log('KTC Flow!')
-    keepTradeCutCall()
-  } else {
-    res.send(200, 'No Rankings Found')
+  switch (req.body.rankings) {
+    case 'ktc':
+      console.log('KTC Flow!')
+      keeptradecut.keepTradeCutCall(res)
+      break
+    case 'ffballers':
+      console.log('FFBallers Flow!')
+      fantasyFootballersRankings.fantasyFootballersRankings(req, res)
+      break
+    default:
+      res.send(500, 'No Rankings Found')
   }
 })
 
