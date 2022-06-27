@@ -7,7 +7,7 @@ require('dotenv').config()
 //request body examples
 // {
 //   "rankings" : "ffballers/ktc",
-//   "position": "QB/RB/WR/TE/DST/K"
+//   "position": "QB/RB/WR/TE/DST/K/TOP200"
 // }
 
 router.get('/', (req, res) => {
