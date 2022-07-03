@@ -1,17 +1,22 @@
 import { GridItem, Box, Heading } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
-function PlayerRankings() {
+function Top200() {
   const [leagueUsers, setLeagueUsers] = useState([])
 
-  //WB League
-  //const leagueId = '730849095425609728'
-  //Dynasty League
-  // const draftId = '845447437878411264'
-  const draftId = '848709896873566208'
-  const url = `https://api.sleeper.app/v1/draft/${draftId}/picks`
+  const url = `http://localhost:8000/rankings`
   const fetchUsers = async () => {
-    const response = await fetch(url)
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          "rankings": "ffballers",
+          "position": "TOP200"
+        }
+      )
+    })
     const data = await response.json()
     setLeagueUsers(data)
   }
@@ -33,4 +38,4 @@ function PlayerRankings() {
   )
 }
 
-export default PlayerRankings
+export default Top200
