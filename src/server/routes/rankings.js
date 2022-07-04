@@ -10,7 +10,7 @@ require('dotenv').config()
 //   "position": "QB/RB/WR/TE/DST/K/TOP200"
 // }
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
   console.log('Rankings Endpoint')
 
   switch (req.body.rankings) {

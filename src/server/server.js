@@ -3,11 +3,13 @@ const MongoDb = require('./helper/mongoUtil')
 const fetchAllPlayers = require('./routes/fetchAllPlayers')
 const setUpPositions = require('./routes/setUpPositions')
 const rankings = require('./routes/rankings')
+const cors = require('cors')
 
 const port = 8000
 
 const app = express()
 app.use(express.json())
+app.use(cors());
 
 //Connecting to MongoDB
 MongoDb.connectToMongoDb()

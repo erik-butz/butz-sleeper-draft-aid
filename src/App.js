@@ -7,7 +7,7 @@ import Top200 from './components/body/positions/Top200'
 function App() {
   return (
     <div>
-      <Grid templateColumns='repeat(10, 1fr)' color='green' gap='2'>
+      <Grid templateColumns='repeat(10, 1fr)' color='green' gap='1'>
         <Team></Team>
         <Positions></Positions>
         <Top200></Top200>
