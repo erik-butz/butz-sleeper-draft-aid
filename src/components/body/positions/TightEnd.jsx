@@ -1,9 +1,12 @@
 import { Flex, Spacer, Heading, Container } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import PlayerIdContext from '../../../context/PlayerIdContext'
 
 const TightEnd = () => {
+  const { draftedPlayersIds } = useContext(PlayerIdContext)
   const [tightEnds, setTightEnds] = useState([])
   const url = `http://localhost:8000/rankings`
+  let filteredTightEndArray = []
   const fetchUsers = async () => {
     const response = await fetch(url, {
       method: 'POST',
@@ -16,12 +19,16 @@ const TightEnd = () => {
       }),
     })
     const data = await response.json()
-    console.log(data)
-    setTightEnds(data)
+    data.forEach((player) => {
+      if (!draftedPlayersIds.includes(player.player_id)) {
+        filteredTightEndArray.push(player)
+      }
+    })
+    setTightEnds([...filteredTightEndArray])
   }
   useEffect(() => {
     fetchUsers()
-  }, [])
+  }, [draftedPlayersIds])
 
   return (
     <Container>
@@ -31,25 +38,25 @@ const TightEnd = () => {
       {!tightEnds.length
         ? 'Loading....'
         : tightEnds.map((player) => (
-            <Flex
-              className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
-              border='1px'
-              color='black'
-              borderColor='gray.200'
-              key={player.player_id}
-            >
-              <Flex ml='4'>
-                {player.Rank}
-                {') '}
-                {player.Name}
-              </Flex>
-              <Spacer />
-              <Flex mr='4'>
-                {'Tier: '}
-                {player.Tier}
-              </Flex>
+          <Flex
+            className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
+            border='1px'
+            color='black'
+            borderColor='gray.200'
+            key={player.player_id}
+          >
+            <Flex ml='4'>
+              {player.Rank}
+              {') '}
+              {player.Name}
             </Flex>
-          ))}
+            <Spacer />
+            <Flex mr='4'>
+              {'Tier: '}
+              {player.Tier}
+            </Flex>
+          </Flex>
+        ))}
     </Container>
   )
 }

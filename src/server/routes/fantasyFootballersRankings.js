@@ -3,11 +3,11 @@ const fs = require('fs')
 const getPosition = async (res, position) => {
   try {
     fs.readFile(`src/UDK/JSON/${position}.json`, (err, data) => {
-      if(!err){
-      const jsonData = JSON.parse(data)
-      res.status(200).json(jsonData)
+      if (!err) {
+        const jsonData = JSON.parse(data)
+        res.status(200).json(jsonData)
       } else {
-        res.status(500).json({'Message': `Error fetching data for position: ${position}`})
+        res.status(500).json({ 'Message': `Error fetching data for position: ${position}` })
       }
     })
   } catch (error) {
@@ -16,7 +16,6 @@ const getPosition = async (res, position) => {
 }
 
 const fantasyFootballersRankings = (req, res) => {
-  console.log('fantasyFootballersRankings endpoint')
   getPosition(res, req?.body?.position)
 }
 

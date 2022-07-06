@@ -2,10 +2,8 @@ import React from 'react'
 import {
   GridItem,
   Heading,
-  SimpleGrid,
-  Box,
-  Container,
-  Flex,
+  WrapItem,
+  Wrap
 } from '@chakra-ui/react'
 import '../../index.css'
 import Quarterback from './positions/Quarterback'
@@ -19,17 +17,27 @@ function Positions() {
   return (
     <GridItem bg='orange.400' colSpan={6}>
       <Heading align='center'>Positions</Heading>
-      <Flex>
-        <Quarterback></Quarterback>
-        <RunningBack></RunningBack>
-        <WideReceiver></WideReceiver>
-      </Flex>
-      <Flex>
-        <TightEnd></TightEnd>
-        <Defense></Defense>
-        <Kicker></Kicker>
-      </Flex>
-    </GridItem>
+      <Wrap>
+        <WrapItem>
+          <Quarterback />
+        </WrapItem>
+        <WrapItem>
+          <RunningBack />
+        </WrapItem>
+        <WrapItem>
+          <WideReceiver />
+        </WrapItem>
+        <WrapItem>
+          <TightEnd></TightEnd>
+        </WrapItem>
+        <WrapItem>
+          <Defense></Defense>
+        </WrapItem>
+        <WrapItem>
+          <Kicker></Kicker>
+        </WrapItem>
+      </Wrap>
+    </GridItem >
   )
 }
 

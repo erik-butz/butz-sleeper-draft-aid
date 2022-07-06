@@ -1,27 +1,35 @@
-import { Flex, Spacer, Heading, Container } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { Flex, Heading, Container } from '@chakra-ui/react'
+import React, { useEffect, useState, useContext } from 'react'
+import PlayerIdContext from '../../../context/PlayerIdContext'
 
 const Kicker = () => {
+  const { draftedPlayersIds } = useContext(PlayerIdContext)
   const [kickers, setKickers] = useState([])
-  const url = `http://localhost:8000/rankings`
-  const fetchUsers = async () => {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        rankings: 'ffballers',
-        position: 'K',
-      }),
-    })
-    const data = await response.json()
-    console.log(data)
-    setKickers(data)
-  }
+
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    let filteredKickersArray = []
+    const url = `http://localhost:8000/rankings`
+    const fetchKickers = async () => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rankings: 'ffballers',
+          position: 'K',
+        }),
+      })
+      const data = await response.json()
+      data.forEach((player) => {
+        if (!draftedPlayersIds.includes(player.player_id)) {
+          filteredKickersArray.push(player)
+        }
+      })
+      setKickers([...filteredKickersArray])
+    }
+    fetchKickers()
+  }, [draftedPlayersIds])
 
   return (
     <Container>
@@ -31,20 +39,20 @@ const Kicker = () => {
       {!kickers.length
         ? 'Loading....'
         : kickers.map((player) => (
-            <Flex
-              className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
-              border='1px'
-              color='black'
-              borderColor='gray.200'
-              key={player.player_id}
-            >
-              <Flex ml='4'>
-                {player.Rank}
-                {') '}
-                {player.Name}
-              </Flex>
+          <Flex
+            className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
+            border='1px'
+            color='black'
+            borderColor='gray.200'
+            key={player.Name}
+          >
+            <Flex ml='4'>
+              {player.Rank}
+              {') '}
+              {player.Name}
             </Flex>
-          ))}
+          </Flex>
+        ))}
     </Container>
   )
 }

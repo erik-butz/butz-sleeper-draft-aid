@@ -23,6 +23,7 @@ const addSleeperIdToJson = async (jsonData) => {
 
   for (const player of jsonData) {
     let playerName = player.Name
+    let team = player.Team
     //Massive switch statement to clean up names of sleeper vs excel sheets
     switch (playerName) {
       case 'Jeff Wilson Jr.':
@@ -82,13 +83,15 @@ const addSleeperIdToJson = async (jsonData) => {
       default:
         break
     }
+
     const query = {
       full_name: `${playerName}`,
+      team: `${team}`,
     }
-
     const fieldsToQuery = {
       player_id: 1,
       full_name: 1,
+      team: 1,
     }
     const foundPlayer = await players
       .find(query)
@@ -102,20 +105,20 @@ const addSleeperIdToJson = async (jsonData) => {
 const getPosition = async () => {
   try {
     const positions = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'TOP200']
-    for(const position of positions){
-        const file = `src/UDK/JSON/${position}.json`
-        let workbook = XLSX.readFile(`src/UDK/${position}.csv`)
-        let workSheet = workbook.Sheets.Sheet1
-        const jsonData = XLSX.utils.sheet_to_json(workSheet)
-        const trimmedJsonData = await trimJsonData(jsonData)
-        fs.writeFile(file, JSON.stringify(trimmedJsonData), (err, data) => {
-            console.log(`POSITION: ${position}`)
-            if(!err) {
-                console.log(`Successfully created ${position}.json`)
-            } else {
-                console.log(`Error creating file for ${position}: ${err.message}`)
-            }
-        })
+    for (const position of positions) {
+      const file = `src/UDK/JSON/${position}.json`
+      let workbook = XLSX.readFile(`src/UDK/${position}.csv`)
+      let workSheet = workbook.Sheets.Sheet1
+      const jsonData = XLSX.utils.sheet_to_json(workSheet)
+      const trimmedJsonData = await trimJsonData(jsonData)
+      fs.writeFile(file, JSON.stringify(trimmedJsonData), (err, _data) => {
+        console.log(`POSITION: ${position}`)
+        if (!err) {
+          console.log(`Successfully created ${position}.json`)
+        } else {
+          console.log(`Error creating file for ${position}: ${err.message}`)
+        }
+      })
     }
   } catch (error) {
     console.log(`Error creating JSON Files: ${error.message}`)

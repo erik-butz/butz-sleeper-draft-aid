@@ -9,7 +9,7 @@ router.get('/', async (_req, res) => {
 
   //Create Json files for different positions
   await createJsonFiles.getPosition()
-  res.status(200)
+  res.status(200).json({ "Message": "Success" })
 })
 
 module.exports = router

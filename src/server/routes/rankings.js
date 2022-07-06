@@ -11,15 +11,14 @@ require('dotenv').config()
 // }
 
 router.post('/', (req, res) => {
-  console.log('Rankings Endpoint')
 
   switch (req.body.rankings) {
     case 'ktc':
-      console.log('KTC Flow!')
+      //console.log('KTC Flow!')
       keeptradecut.keepTradeCutCall(res)
       break
     case 'ffballers':
-      console.log('FFBallers Flow!')
+      //console.log('FFBallers Flow!')
       fantasyFootballersRankings.fantasyFootballersRankings(req, res)
       break
     default:
