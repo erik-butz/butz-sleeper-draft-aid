@@ -8,7 +8,7 @@ require('dotenv').config()
 //https://stackoverflow.com/questions/24122981/how-to-stop-insertion-of-duplicate-documents-in-a-mongodb-collection
 
 router.get('/', (_req, res) => {
-  console.log('Fetch All Sleeper Players Endpoint')
+  //console.log('Fetch All Sleeper Players Endpoint')
   const nflPlayersUrl = 'https://api.sleeper.app/v1/players/nfl'
   let players
   const collectionName = 'AllPlayers'

@@ -10,16 +10,15 @@ require('dotenv').config()
 //   "position": "QB/RB/WR/TE/DST/K/TOP200"
 // }
 
-router.get('/', (req, res) => {
-  console.log('Rankings Endpoint')
+router.post('/', (req, res) => {
 
   switch (req.body.rankings) {
     case 'ktc':
-      console.log('KTC Flow!')
+      //console.log('KTC Flow!')
       keeptradecut.keepTradeCutCall(res)
       break
     case 'ffballers':
-      console.log('FFBallers Flow!')
+      //console.log('FFBallers Flow!')
       fantasyFootballersRankings.fantasyFootballersRankings(req, res)
       break
     default:

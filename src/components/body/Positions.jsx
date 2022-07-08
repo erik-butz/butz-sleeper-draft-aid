@@ -1,29 +1,43 @@
 import React from 'react'
-import { GridItem, Heading, SimpleGrid, Box } from '@chakra-ui/react'
+import {
+  GridItem,
+  Heading,
+  WrapItem,
+  Wrap
+} from '@chakra-ui/react'
 import '../../index.css'
-
-const positionsArray = ['QB', 'RB', 'WR', 'TE', 'D/ST', 'K']
-
-//Player Object {
-//   Player Name:
-//   Postion:
-//   Sleeper Id
-//   Tier
-//   
-// }
+import Quarterback from './positions/Quarterback'
+import RunningBack from './positions/RunningBack'
+import WideReceiver from './positions/WideReceiver'
+import TightEnd from './positions/TightEnd'
+import Defense from './positions/Defense'
+import Kicker from './positions/Kicker'
 
 function Positions() {
   return (
-    <GridItem w='100%' h='100%' bg='orange.400' colSpan={6}>
-      <Heading>Positions</Heading>
-      <SimpleGrid columns={2} spacing={5}>
-        {positionsArray.map((position) => (
-          <Box key={position} bg='tomato' height='80px'>
-            {position}
-          </Box>
-        ))}
-      </SimpleGrid>
-    </GridItem>
+    <GridItem bg='orange.400' colSpan={6}>
+      <Heading align='center'>Positions</Heading>
+      <Wrap>
+        <WrapItem>
+          <Quarterback />
+        </WrapItem>
+        <WrapItem>
+          <RunningBack />
+        </WrapItem>
+        <WrapItem>
+          <WideReceiver />
+        </WrapItem>
+        <WrapItem>
+          <TightEnd></TightEnd>
+        </WrapItem>
+        <WrapItem>
+          <Defense></Defense>
+        </WrapItem>
+        <WrapItem>
+          <Kicker></Kicker>
+        </WrapItem>
+      </Wrap>
+    </GridItem >
   )
 }
 
