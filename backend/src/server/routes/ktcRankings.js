@@ -26,7 +26,7 @@ const fetchUserByPlayerName = async (playerNames, res) => {
 
     for (const element of playerNames) {
       let playerName = element.PlayerName
-      console.log(`Searching for player: ${playerName}`)
+      //console.log(`Searching for player: ${playerName}`)
 
       //Custom switch statements for different names on site vs in mongodb db
       switch (playerName) {
