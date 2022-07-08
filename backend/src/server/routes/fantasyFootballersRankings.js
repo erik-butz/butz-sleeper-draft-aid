@@ -2,7 +2,7 @@ const fs = require('fs')
 
 const getPosition = async (res, position) => {
   try {
-    fs.readFile(`src/UDK/JSON/${position}.json`, (err, data) => {
+    fs.readFile(`UDK/JSON/${position}.json`, (err, data) => {
       if (!err) {
         const jsonData = JSON.parse(data)
         res.status(200).json(jsonData)

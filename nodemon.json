@@ -1,3 +1,6 @@
 {
-    "ignore": ["*.json", "src/UDK/*"]
-  }
+  "ignore": [
+    "*.json",
+    "site/src/UDK/*"
+  ]
+}

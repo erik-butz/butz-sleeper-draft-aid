@@ -8,8 +8,7 @@ router.get('/', async (_req, res) => {
   console.log('setUpPositions Endpoint')
 
   //Create Json files for different positions
-  await createJsonFiles.getPosition()
-  res.status(200).json({ "Message": "Success" })
+  await createJsonFiles.getPosition(res)
 })
 
 module.exports = router
