@@ -1,5 +1,5 @@
 const XLSX = require('xlsx')
-const mongoUtil = require('../helper/mongoUtil')
+const mongoUtil = require('./mongoUtil')
 const fs = require('fs')
 
 const trimJsonData = async (jsonData) => {
@@ -102,12 +102,12 @@ const addSleeperIdToJson = async (jsonData) => {
   return jsonData
 }
 
-const getPosition = async () => {
+const getPosition = async (res) => {
   try {
     const positions = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'TOP200']
     for (const position of positions) {
-      const file = `src/UDK/JSON/${position}.json`
-      let workbook = XLSX.readFile(`src/UDK/${position}.csv`)
+      const file = `./UDK/JSON/${position}.json`
+      let workbook = XLSX.readFile(`./UDK/${position}.csv`)
       let workSheet = workbook.Sheets.Sheet1
       const jsonData = XLSX.utils.sheet_to_json(workSheet)
       const trimmedJsonData = await trimJsonData(jsonData)
@@ -120,8 +120,10 @@ const getPosition = async () => {
         }
       })
     }
+    res.status(200).json({ "Message": "Success" })
   } catch (error) {
     console.log(`Error creating JSON Files: ${error.message}`)
+    res.status(500).json({ "Message": "Could not create JSON files" })
   }
 }
 
