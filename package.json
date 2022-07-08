@@ -4,9 +4,9 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "site/src/index.js",
   "scripts": {
-    "site": "npm start --prefix site",
-    "server": "nodemon backend/src/server/server.js",
-    "app": "node ./backend/src/server/server.js"
+    "build": "npm run build --prefix site",
+    "server": "node ./backend/src/server/server.js",
+    "dev": "nodemon ./backend/src/server/server.js"
   },
   "repository": {
     "type": "git",
