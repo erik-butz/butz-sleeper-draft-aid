@@ -3,3 +3,13 @@ Player Trade Block Bot - Weekly posts to #Trades channel of all the players on t
 Draft aid
     Live draft board that loads in rankings then looks at our sleeper live draft and all the picks and as the players get picked removes them from my rankings
     Add a dictionary file to use with PlayerName and ID to save time on the ID look up call from the DB
+
+Todos
+    deploy backend to heroku
+    Refactor to package up .csv files or store positions on tables in mongodb
+    Pretty ui changes
+    Add ability to search by sleeper draft ID
+    Add top 200 rankings from another similar spot
+        https://openbase.com/js/node-tesseract-ocr
+    Fetch players for my team
+    Fetch all drafts for user 
