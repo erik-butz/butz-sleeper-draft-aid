@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "backend/src/server/server.js",
-  "scripts": {
-    "start": "npm install && node server/server"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Mavelas/butz-sleeper-draft-aid.git"
@@ -27,8 +24,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "engines": {
-    "node": "16.13.1"
   }
 }
