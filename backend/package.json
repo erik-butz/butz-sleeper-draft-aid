@@ -1,12 +1,14 @@
 {
   "name": "butz-sleeper-draft-aid-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Node backend for player setting up and providing fantasy football player rankings",
+  "main": "server.js",
   "scripts": {
-    "server": "npm install && node src/server/server.js"
+    "start": "node src/server/server",
+    "server": "nodemon src/server/server",
+    "build": "npm install && node src/server/server"
   },
-  "author": "",
+  "author": "ErikButz",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
@@ -18,5 +20,8 @@
     "mongodb": "^4.7.0",
     "node-fetch": "^2.6.6",
     "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": "16.13.1"
   }
 }
