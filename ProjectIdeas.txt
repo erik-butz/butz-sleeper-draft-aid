@@ -6,6 +6,8 @@ Draft aid
 
 Todos
     deploy backend to heroku
+        create helper function for url endpoints
+        figure out how to store json files in heroku or use mongodb tables instead
     Refactor to package up .csv files or store positions on tables in mongodb
     Pretty ui changes
     Add ability to search by sleeper draft ID
