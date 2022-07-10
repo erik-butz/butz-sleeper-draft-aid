@@ -4,9 +4,8 @@
   "description": "Node backend for player setting up and providing fantasy football player rankings",
   "main": "server.js",
   "scripts": {
-    "start": "node src/server/server",
-    "server": "nodemon src/server/server",
-    "build": "npm install && node src/server/server"
+    "start": "node ./src/server/server",
+    "dev": "nodemon ./src/server/server"
   },
   "author": "ErikButz",
   "license": "ISC",
