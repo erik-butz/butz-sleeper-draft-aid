@@ -6,7 +6,7 @@ const rankings = require('./routes/rankings')
 const helloWorld = require('./routes/helloWorld')
 const cors = require('cors')
 
-const port = 8000
+const port = process.env.PORT || 8000
 
 const app = express()
 app.use(express.json())
