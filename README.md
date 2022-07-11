@@ -1,70 +1,119 @@
-# Getting Started with Create React App
+# Butz Sleeper Fantasy Football Draft Aid
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [Butz Sleeper Fantasy Football Draft Aid](#butz-sleeper-fantasy-football-draft-aid)
+  - [Available Scripts](#available-scripts)
+      - [`npm start`](#npm-start)
+  - [Backend](#backend)
+    - [Backend Scripts](#backend-scripts)
+      - [`npm start`](#npm-start-1)
+      - [`npm run dev`](#npm-run-dev)
+    - [Endpoints](#endpoints)
+      - [**Hello World**:](#hello-world)
+      - [**Rankings**:](#rankings)
+      - [**Set Up Positions Rankings**](#set-up-positions-rankings)
+      - [**Fetch All Players**](#fetch-all-players)
+  - [Frontend](#frontend)
+    - [Frontend Scripts](#frontend-scripts)
+      - [`npm start`](#npm-start-2)
+- [Todo List](#todo-list)
+
+This project has a front end written in React and a backend written using Node. The front end is hosted on Netlify and the backend server is hosted on Heroku with a MongoDB database. The purpose of it is to be a live Fantasy Football Draft guide that updates as your live draft is going on. 
+
+**MongoDB**
+
+Stores the following information
+- Every single NFL player and player information (provided by sleeper [here](https://docs.sleeper.app/#fetch-all-players))
+- Collections for individual position rankings. This is split up by (QB, RB, WR, TE, Kicker, Defense/Special Teams and Top 200)
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+#### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This is used for deploying the application to the Heroku Server.
 
-The page will reload when you make changes.\
+## Backend
+
+### Backend Scripts
+
+#### `npm start`
+
+Starts the backend of the server using Node. No automatic restarting of the server happens with this command.
+
+#### `npm run dev`
+
+Used for running the server locally with Nodemon. Any saves to files will automatically restart the server.
+
+This app runs on: [http://localhost:8000](http://localhost:8000) 
+
+### Endpoints
+
+#### **Hello World**: 
+
+`http://localhost:8000/helloWorld` 
+
+This is used to test and make sure the appliation is up and running. 
+
+#### **Rankings**: 
+
+
+**KTC**
+
+Type of request: POST
+
+URL: `http://localhost:8000/rankings` 
+
+JSON Body: ```{
+    "rankings": "ktc"
+}```
+
+**Fantasy Footballers**
+
+Type of request: POST
+
+URL: `http://localhost:8000/rankings` 
+
+JSON Body: ```{
+    "rankings": "ffballers",
+    "position": "QB/RB/WR/TE/DST/K/TOP200"
+}```
+
+#### **Set Up Positions Rankings** 
+
+`http://localhost:8000/setUpPositions`
+
+Information here
+
+#### **Fetch All Players** 
+
+`http://localhost:8000/fetchAllPlayers` 
+
+Uses sleeper's `players/nfl` endpoint to fetch all NFL player data and store it in a MongoDB collection. There are about 6800 records so far.
+
+## Frontend
+
+### Frontend Scripts
+
+#### `npm start`
+
+Starts the front end of the application
+
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser. 
+
+The page will reload when you make changes. 
+
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Todo List
+- ~~Deploy backend to heroku~~ (done 7//10) 
+  - Create helper function for url endpoints (Local vs Prod)
+  - ~~Look into bucket storage for json files~~ (No longer needed)
+    - Refactor to package up .csv files or store positions on tables in mongodb
+- Use Chakra UI to improve the UI
+- Add ability to search by sleeper draft ID
+  - Textbox asking for draft id, then loads page and rankings
+- Add top 200 rankings from another similar spot
+  - Use PDF OCR reader to import other Top 200 rankings & tiers
+  - https://openbase.com/js/node-tesseract-ocr
+- Fetch players for my team (By user ID)
