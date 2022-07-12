@@ -1,7 +1,7 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const _ = require('lodash')
-const mongoUtil = require('../helper/mongoUtil')
+const mongoUtil = require('../../helper/mongoUtil')
 require('dotenv').config()
 
 let players
