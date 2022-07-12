@@ -7,7 +7,20 @@ const Defense = () => {
   const [defenses, setDefenses] = useState([])
 
   useEffect(() => {
-    const url = `http://localhost:8000/rankings`
+    let url
+    console.log('NODE ENV:' + process.env.NODE_ENV)
+    switch (process.env.NODE_ENV) {
+      case 'local':
+      case 'development':
+        url = `http://localhost:8000/rankings`
+        break;
+      case 'production':
+        url = 'https://butz-sleeper-draft-aid-backend.herokuapp.com/rankings'
+        break;
+      default:
+        url = 'http://localhost:8000/rankings'
+        break
+    }
     const fetchDefenses = async () => {
       const response = await fetch(url, {
         method: 'POST',
