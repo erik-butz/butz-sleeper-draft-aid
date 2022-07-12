@@ -107,7 +107,7 @@ const getPosition = async (res) => {
     for (const position of positions) {
       console.log(`POSITION: ${position}`)
       const db = await mongoUtil.getDb()
-      positionTable = await db.collection(position)
+      const positionTable = await db.collection(position)
       let workbook = XLSX.readFile(`./UDK/${position}.csv`)
       let workSheet = workbook.Sheets.Sheet1
       const jsonData = XLSX.utils.sheet_to_json(workSheet)
