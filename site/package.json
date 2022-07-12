@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+    "butz-sleeper-draft-aid": "file:..",
     "dotenv": "^16.0.1",
     "framer-motion": "^6.3.3",
     "playwright": "^1.21.1",

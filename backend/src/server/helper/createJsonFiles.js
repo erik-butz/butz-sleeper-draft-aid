@@ -2,26 +2,25 @@ const XLSX = require('xlsx')
 const mongoUtil = require('./mongoUtil')
 const fs = require('fs')
 
-const trimJsonData = async (jsonData) => {
-  Object.entries(jsonData).forEach((player) => {
+const trimData = async (data) => {
+  Object.entries(data).forEach((player) => {
     delete player[1].Outlook
     delete player[1].Dynasty
     delete player[1].Markers
     delete player[1].Risk
     delete player[1].Points
   })
-  jsonData = await addSleeperIdToJson(jsonData)
-  return jsonData
+  data = await addSleeperIdToData(data)
+  return data
 }
 
-const addSleeperIdToJson = async (jsonData) => {
-
+const addSleeperIdToData = async (data) => {
   const collectionName = 'AllPlayers'
   const db = await mongoUtil.getDb()
   //Collection (Table) Name in MongoDB
   let players = await db.collection(collectionName)
 
-  for (const player of jsonData) {
+  for (const player of data) {
     let playerName = player.Name
     let team = player.Team
     //Massive switch statement to clean up names of sleeper vs excel sheets
@@ -99,31 +98,32 @@ const addSleeperIdToJson = async (jsonData) => {
       .toArray()
     player.player_id = await foundPlayer[0]?.player_id
   }
-  return jsonData
+  return data
 }
 
 const getPosition = async (res) => {
   try {
     const positions = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'TOP200']
     for (const position of positions) {
-      let workbook = XLSX.readFile(`../UDK/${position}.csv`)
-      const file = `../UDK/JSON/${position}.json`
+      console.log(`POSITION: ${position}`)
+      const db = await mongoUtil.getDb()
+      positionTable = await db.collection(position)
+      let workbook = XLSX.readFile(`./UDK/${position}.csv`)
       let workSheet = workbook.Sheets.Sheet1
       const jsonData = XLSX.utils.sheet_to_json(workSheet)
-      const trimmedJsonData = await trimJsonData(jsonData)
-      fs.writeFile(file, JSON.stringify(trimmedJsonData), (err, _data) => {
-        console.log(`POSITION: ${position}`)
-        if (!err) {
-          console.log(`Successfully created ${position}.json`)
-        } else {
-          console.log(`Error creating file for ${position}: ${err.message}`)
-        }
+      const trimmedJsonData = await trimData(jsonData)
+      trimmedJsonData.forEach(async (player) => {
+        const responseFromDb = await positionTable.insertOne(player)
+        //TODO: Add error if response from DB is not True (success). Need to log it out
+        console.log(responseFromDb)
       })
     }
-    res.status(200).json({ "Message": "Success" })
+    res.status(200).json({ Message: 'Success' })
   } catch (error) {
-    console.log(`Error creating JSON Files: ${error.message}`)
-    res.status(500).json({ "Message": "Could not create JSON files" })
+    console.log(`Error inserting into position collections: ${error.message}`)
+    res
+      .status(500)
+      .json({ Message: 'Could not create players into collections' })
   }
 }
 

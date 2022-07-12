@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const router = Router()
-const keeptradecut = require('./ktcRankings')
-const fantasyFootballersRankings = require('./fantasyFootballersRankings')
+const keeptradecut = require('./rankings/ktcRankings')
+const fantasyFootballersRankings = require('./rankings/fantasyFootballersRankings')
 require('dotenv').config()
 
 //request body examples
