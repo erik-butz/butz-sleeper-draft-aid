@@ -2,10 +2,12 @@
 
 - [Butz Sleeper Fantasy Football Draft Aid](#butz-sleeper-fantasy-football-draft-aid)
   - [Available Scripts](#available-scripts)
-      - [`npm start`](#npm-start)
+      - [`npm run setup`](#npm-run-setup)
+      - [`npm run server`](#npm-run-server)
+      - [`npm run site`](#npm-run-site)
   - [Backend](#backend)
     - [Backend Scripts](#backend-scripts)
-      - [`npm start`](#npm-start-1)
+      - [`npm start`](#npm-start)
       - [`npm run dev`](#npm-run-dev)
     - [Endpoints](#endpoints)
       - [**Hello World**:](#hello-world)
@@ -14,7 +16,7 @@
       - [**Fetch All Players**](#fetch-all-players)
   - [Frontend](#frontend)
     - [Frontend Scripts](#frontend-scripts)
-      - [`npm start`](#npm-start-2)
+      - [`npm start`](#npm-start-1)
 - [Todo List](#todo-list)
 
 This project has a front end written in React and a backend written using Node. The front end is hosted on Netlify and the backend server is hosted on Heroku with a MongoDB database. The purpose of it is to be a live Fantasy Football Draft guide that updates as your live draft is going on. 
@@ -120,6 +122,7 @@ You may also see any lint errors in the console.
   - ~~Look into bucket storage for json files~~ (No longer needed, storing data in Mongodb Collection)
     - ~~Refactor to package up .csv files or store positions on tables in mongodb~~ (Done 7/12)
 - Use Chakra UI to improve the UI
+- Figure out how to filter Kickers (No Sleeper ID for them in DB)
 - Add ability to search by sleeper draft ID
   - Textbox asking for draft id, then loads page and rankings
 - Add top 200 rankings from another similar spot
