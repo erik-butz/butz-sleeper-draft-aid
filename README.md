@@ -106,6 +106,7 @@ The page will reload when you make changes.
 You may also see any lint errors in the console.
 
 # Todo List
+- Update Readme.md
 - ~~Deploy backend to heroku~~ (done 7//10) 
   - Create helper function for url endpoints (Local vs Prod)
   - ~~Look into bucket storage for json files~~ (No longer needed)
