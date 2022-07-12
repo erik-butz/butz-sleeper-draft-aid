@@ -29,6 +29,7 @@ router.get('/', (_req, res) => {
     const response = await fetch(nflPlayersUrl)
     const data = await response.json()
 
+    //Looped through it this way vs forEach() because I ran into an undefined error for the last record that caused errors
     for (let i = 1; i < Object.keys(data).length; i++) {
       if (data[i] === undefined) {
         continue
