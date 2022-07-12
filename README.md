@@ -109,8 +109,8 @@ You may also see any lint errors in the console.
 - ~~Update Readme.md~~
 - ~~Deploy backend to heroku~~ (done 7//10) 
   - Create helper function for url endpoints (Local vs Prod)
-  - ~~Look into bucket storage for json files~~ (No longer needed)
-    - Refactor to package up .csv files or store positions on tables in mongodb
+  - ~~Look into bucket storage for json files~~ (No longer needed, storing data in Mongodb Collection)
+    - ~~Refactor to package up .csv files or store positions on tables in mongodb~~ (Done 7/12)
 - Use Chakra UI to improve the UI
 - Add ability to search by sleeper draft ID
   - Textbox asking for draft id, then loads page and rankings
