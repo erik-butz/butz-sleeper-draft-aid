@@ -109,7 +109,6 @@ const getPosition = async (res) => {
       const db = await mongoUtil.getDb()
       positionTable = await db.collection(position)
       let workbook = XLSX.readFile(`./UDK/${position}.csv`)
-      const file = `../UDK/JSON/${position}.json`
       let workSheet = workbook.Sheets.Sheet1
       const jsonData = XLSX.utils.sheet_to_json(workSheet)
       const trimmedJsonData = await trimData(jsonData)

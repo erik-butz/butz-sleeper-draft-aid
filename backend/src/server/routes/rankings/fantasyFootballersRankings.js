@@ -17,7 +17,6 @@ const getPosition = async (res, position) => {
       .find(query)
       .sort({ Rank: 1 })
       .toArray()
-    console.log(foundPlayers)
     
     res.status(200).json(foundPlayers)
   } catch (error) {
