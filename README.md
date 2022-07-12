@@ -27,11 +27,19 @@ Stores the following information
 
 ## Available Scripts
 
-In the project directory, you can run:
+To get the project up and running run the following
 
-#### `npm start`
+#### `npm run setup`
 
-This is used for deploying the application to the Heroku Server.
+This installs all packages for both the React frontend and Node backend
+
+#### `npm run server`
+
+This starts up the Node server.js file to connect to MongoDb as well as starts up the 4 endpoints. You will need a MongoDb user setup to be able to fetch, write, delete and update data in the databse.
+
+#### `npm run site`
+
+This starts up the React frontend of the application. If the Node backend is not running, or if you don't have a Mongodb connection you will need to set that up.
 
 ## Backend
 
