@@ -104,7 +104,6 @@ const addSleeperIdToJson = async (jsonData) => {
 
 const getPosition = async (res) => {
   try {
-    console.log(__dirname)
     const positions = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'TOP200']
     for (const position of positions) {
       let workbook = XLSX.readFile(`../UDK/${position}.csv`)
