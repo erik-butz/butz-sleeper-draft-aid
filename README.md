@@ -118,7 +118,7 @@ You may also see any lint errors in the console.
 # Todo List
 - ~~Update Readme.md~~
 - ~~Deploy backend to heroku~~ (done 7//10) 
-  - Create helper function for url endpoints (Local vs Prod)
+  - ~~Create helper function for url endpoints (Local vs Prod)~~ (Done 7/12)
   - ~~Look into bucket storage for json files~~ (No longer needed, storing data in Mongodb Collection)
     - ~~Refactor to package up .csv files or store positions on tables in mongodb~~ (Done 7/12)
 - Use Chakra UI to improve the UI
@@ -129,3 +129,4 @@ You may also see any lint errors in the console.
   - Use PDF OCR reader to import other Top 200 rankings & tiers
   - https://openbase.com/js/node-tesseract-ocr
 - Fetch players for my team (By user ID)
+- Make 3 columns responsive for mobile
