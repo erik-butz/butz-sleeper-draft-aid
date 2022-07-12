@@ -21,7 +21,7 @@ export const PlayerProvider = ({ children }) => {
   useEffect(() => {
     setInterval(() => {
       fetchDraftedUsers()
-    }, 10000)
+    }, 1000)
   }, [])
 
 

@@ -1,6 +1,7 @@
 import { Flex, Heading, Container, Spacer } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
+import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
 
 const RunningBack = () => {
   const { draftedPlayersIds } = useContext(PlayerIdContext)
@@ -8,7 +9,7 @@ const RunningBack = () => {
 
   useEffect(() => {
     let filteredRunningbackArray = []
-    const url = `http://localhost:8000/rankings`
+    const url = rankingEndpointHelper()
     const fetchRunningBacks = async () => {
       const response = await fetch(url, {
         method: 'POST',

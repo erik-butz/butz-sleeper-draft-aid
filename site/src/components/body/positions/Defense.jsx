@@ -1,13 +1,14 @@
 import { Flex, Heading, Container } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
+import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
 
 const Defense = () => {
   const { draftedPlayersIds } = useContext(PlayerIdContext)
   const [defenses, setDefenses] = useState([])
 
   useEffect(() => {
-    const url = `http://localhost:8000/rankings`
+    const url = rankingEndpointHelper()
     const fetchDefenses = async () => {
       const response = await fetch(url, {
         method: 'POST',

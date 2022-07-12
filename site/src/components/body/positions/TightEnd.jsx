@@ -1,11 +1,12 @@
 import { Flex, Spacer, Heading, Container } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
+import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
 
 const TightEnd = () => {
   const { draftedPlayersIds } = useContext(PlayerIdContext)
   const [tightEnds, setTightEnds] = useState([])
-  const url = `http://localhost:8000/rankings`
+  const url = rankingEndpointHelper()
   let filteredTightEndArray = []
   const fetchUsers = async () => {
     const response = await fetch(url, {
