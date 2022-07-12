@@ -2,6 +2,7 @@ import { Heading, Container, Flex, Spacer } from '@chakra-ui/react'
 import '../../../App.css'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
+import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
 
 const Quarterback = () => {
   const { draftedPlayersIds } = useContext(PlayerIdContext)
@@ -10,7 +11,7 @@ const Quarterback = () => {
 
   useEffect(() => {
     let filteredQuarterbackArray = []
-    const url = `http://localhost:8000/rankings`
+    const url = rankingEndpointHelper()
     const fetchQuarterBacks = async () => {
       const response = await fetch(url, {
         method: 'POST',
