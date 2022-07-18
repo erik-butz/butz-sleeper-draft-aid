@@ -124,6 +124,7 @@ You may also see any lint errors in the console.
 - Bug: Fix fetch all players to add Defenses
   - Position: Def
   - Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc
+- Ken/Kenneth Walker bug (Not filtering name out)
 - Use Chakra UI to improve the UI
 - Figure out how to filter Kickers (No Sleeper ID for them in DB)
 - Add ability to search by sleeper draft ID
