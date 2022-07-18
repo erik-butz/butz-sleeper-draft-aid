@@ -121,6 +121,9 @@ You may also see any lint errors in the console.
   - ~~Create helper function for url endpoints (Local vs Prod)~~ (Done 7/12)
   - ~~Look into bucket storage for json files~~ (No longer needed, storing data in Mongodb Collection)
     - ~~Refactor to package up .csv files or store positions on tables in mongodb~~ (Done 7/12)
+- Bug: Fix fetch all players to add Defenses
+  - Position: Def
+  - Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc
 - Use Chakra UI to improve the UI
 - Figure out how to filter Kickers (No Sleeper ID for them in DB)
 - Add ability to search by sleeper draft ID
