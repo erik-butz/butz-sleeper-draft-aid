@@ -1,4 +1,4 @@
-import { Heading, Container, Flex, Spacer } from '@chakra-ui/react'
+import { Heading, Box, Flex, Spacer } from '@chakra-ui/react'
 import '../../../App.css'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
@@ -35,7 +35,7 @@ const Quarterback = () => {
   }, [draftedPlayersIds])
 
   return (
-    <Container>
+    <Box pl='10px'>
       <Heading size='lg' align='center' m='2'>
         QB
       </Heading>
@@ -61,7 +61,7 @@ const Quarterback = () => {
             </Flex>
           </Flex>
         ))}
-    </Container>
+    </Box>
   )
 }
 

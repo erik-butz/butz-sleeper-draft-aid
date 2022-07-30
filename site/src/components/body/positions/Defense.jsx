@@ -1,4 +1,4 @@
-import { Flex, Heading, Container } from '@chakra-ui/react'
+import { Flex, Heading, Box } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
 import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
@@ -28,7 +28,7 @@ const Defense = () => {
   }, [draftedPlayersIds])
 
   return (
-    <Container>
+    <Box>
       <Heading size='lg' align='center' m='2'>
         D
       </Heading>
@@ -49,7 +49,7 @@ const Defense = () => {
             </Flex>
           </Flex>
         ))}
-    </Container>
+    </Box>
   )
 }
 

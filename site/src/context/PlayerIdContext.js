@@ -4,7 +4,7 @@ const PlayerIdContext = createContext()
 
 export const PlayerProvider = ({ children }) => {
   const [draftedPlayersId, setDraftedPlayerIds] = useState([])
-  const draftId = '854816351599034368'
+  const [draftId, setDraftId] = useState('858818756611268608')
   const url = `https://api.sleeper.app/v1/draft/${draftId}/picks`
   let newDraftedPlayerArray = []
 
