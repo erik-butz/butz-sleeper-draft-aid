@@ -3,11 +3,11 @@ import React from 'react'
 
 const Search = () => {
   return (
-    <WrapItem w='55%'>
-      <Box width='100%' m='5px'>
+    <WrapItem w='100%'>
+      <Box width='40%' m='5px' maxWidth='300px'>
         <Input placeholder='SleeperDraftId' variant='outline'></Input>
       </Box>
-      <Box w='20%' m='5px'>
+      <Box m='5px' ml='0px'>
         <Button colorScheme='teal' variant='solid'>Submit</Button>
       </Box >
     </WrapItem >

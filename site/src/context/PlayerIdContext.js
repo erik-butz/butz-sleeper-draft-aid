@@ -22,7 +22,7 @@ export const PlayerProvider = ({ children }) => {
     setInterval(() => {
       fetchDraftedUsers()
     }, 1000)
-  }, [])
+  }, [draftId])
 
 
   return <PlayerIdContext.Provider value={{

@@ -15,7 +15,12 @@ import Kicker from './positions/Kicker'
 
 function Positions() {
   return (
-    <WrapItem bg='orange.400' flexDirection='column' w='64%'>
+    <WrapItem bg='orange.400' flexDirection='column' width={[
+      "100%", // base
+      "100%", // 480px upwards
+      "60%", // 768px upwards
+      "74%", // 992px upwards
+    ]}>
       <Center color='white' w='100%' borderBottom='2px solid black' mb='1'>
         <Heading as='h1'>
           Positions

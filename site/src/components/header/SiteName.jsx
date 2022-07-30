@@ -3,7 +3,9 @@ import React from 'react'
 
 const SiteName = () => {
   return (
-    <WrapItem w='44%'>
+    <WrapItem width={[
+      "100%"
+    ]}>
       <Heading ml='10px'>Butz Sleeper Draft Aid</Heading>
     </WrapItem>
   )
