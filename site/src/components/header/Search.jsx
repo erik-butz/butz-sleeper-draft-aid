@@ -25,7 +25,7 @@ const Search = () => {
   return (
     <form onSubmit={handleSubmit}>
       <WrapItem w='100%'>
-        <Box width='40%' m='5px' maxWidth='300px' minWidth='300px'>
+        <Box m='5px'>
           <Input
             placeholder='SleeperDraftId'
             variant='outline'

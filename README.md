@@ -126,9 +126,9 @@ You may also see any lint errors in the console.
   - Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc
 - Ken/Kenneth Walker bug (Not filtering name out)
 - Use Chakra UI to improve the UI
-- Figure out how to filter Kickers (No Sleeper ID for them in DB)
-- Add ability to search by sleeper draft ID
-  - Textbox asking for draft id, then loads page and rankings
+- ~~Figure out how to filter Kickers (No Sleeper ID for them in DB)~~
+- ~~Add ability to search by sleeper draft ID~~
+  - ~~Textbox asking for draft id, then loads page and rankings~~
 - Add top 200 rankings from another similar spot
   - Use PDF OCR reader to import other Top 200 rankings & tiers
   - https://openbase.com/js/node-tesseract-ocr
