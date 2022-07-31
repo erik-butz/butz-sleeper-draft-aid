@@ -1,6 +1,5 @@
 const XLSX = require('xlsx')
 const mongoUtil = require('./mongoUtil')
-const fs = require('fs')
 
 const trimData = async (data) => {
   Object.entries(data).forEach((player) => {
@@ -38,7 +37,7 @@ const addSleeperIdToData = async (data) => {
         playerName = 'Darrell Henderson'
         break
       case 'Kenneth Walker III':
-        playerName = 'Kenneth Walker'
+        playerName = 'Ken Walker'
         break
       case 'Melvin Gordon III':
         playerName = 'Melvin Gordon'
@@ -108,14 +107,24 @@ const getPosition = async (res) => {
       console.log(`POSITION: ${position}`)
       const db = await mongoUtil.getDb()
       const positionTable = await db.collection(position)
-      let workbook = XLSX.readFile(`./UDK/${position}.csv`)
+
+      //Need to drop to update all rankings
+      await db.collection(position).drop((err, result) => {
+        if (err) {
+          console.log(`Error dropping collection ${position}`)
+        } else {
+          console.log(result)
+        }
+      })
+      //Paste csv files in helper folder
+      let workbook = XLSX.readFile(`${__dirname}` + `/${position}.csv`)
       let workSheet = workbook.Sheets.Sheet1
       const jsonData = XLSX.utils.sheet_to_json(workSheet)
       const trimmedJsonData = await trimData(jsonData)
       trimmedJsonData.forEach(async (player) => {
-        const responseFromDb = await positionTable.insertOne(player)
+        //const responseFromDb = 
+        await positionTable.insertOne(player)
         //TODO: Add error if response from DB is not True (success). Need to log it out
-        console.log(responseFromDb)
       })
     }
     res.status(200).json({ Message: 'Success' })

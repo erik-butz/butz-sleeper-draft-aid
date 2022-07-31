@@ -1,4 +1,4 @@
-import { Flex, Heading, Container } from '@chakra-ui/react'
+import { Flex, Heading, Box } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
 import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
@@ -33,7 +33,16 @@ const Kicker = () => {
   }, [draftedPlayersIds])
 
   return (
-    <Container>
+    <Box pl='10px' pr='10px' display='flex'
+      justify-content='center'
+      align-items='center'
+      flexDirection='column'
+      width={
+        ["100%", // base
+          "100%", // 480px upwards
+          "48%", // 768px upwards
+          "32%", // 992px upwards
+        ]}>
       <Heading size='lg' align='center' m='2'>
         K
       </Heading>
@@ -54,7 +63,7 @@ const Kicker = () => {
             </Flex>
           </Flex>
         ))}
-    </Container>
+    </Box>
   )
 }
 

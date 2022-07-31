@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
       fantasyFootballersRankings.fantasyFootballersRankings(req, res)
       break
     default:
-      res.send(500, 'No Rankings Found')
+      res.status(500).send('No Rankings Found')
   }
 })
 

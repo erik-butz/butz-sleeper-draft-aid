@@ -1,4 +1,4 @@
-import { Flex, Spacer, Heading, Container } from '@chakra-ui/react'
+import { Flex, Spacer, Heading, Box } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
 import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
@@ -6,33 +6,43 @@ import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
 const TightEnd = () => {
   const { draftedPlayersIds } = useContext(PlayerIdContext)
   const [tightEnds, setTightEnds] = useState([])
-  const url = rankingEndpointHelper()
-  let filteredTightEndArray = []
-  const fetchUsers = async () => {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        rankings: 'ffballers',
-        position: 'TE',
-      }),
-    })
-    const data = await response.json()
-    data.forEach((player) => {
-      if (!draftedPlayersIds.includes(player.player_id)) {
-        filteredTightEndArray.push(player)
-      }
-    })
-    setTightEnds([...filteredTightEndArray])
-  }
+
   useEffect(() => {
-    fetchUsers()
+    const url = rankingEndpointHelper()
+    let filteredTightEndArray = []
+    const fetchTightEnds = async () => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rankings: 'ffballers',
+          position: 'TE',
+        }),
+      })
+      const data = await response.json()
+      data.forEach((player) => {
+        if (!draftedPlayersIds.includes(player.player_id)) {
+          filteredTightEndArray.push(player)
+        }
+      })
+      setTightEnds([...filteredTightEndArray])
+    }
+    fetchTightEnds()
   }, [draftedPlayersIds])
 
   return (
-    <Container>
+    <Box pl='10px' pr='10px' display='flex'
+      justify-content='center'
+      align-items='center'
+      flexDirection='column'
+      width={
+        ["100%", // base
+          "100%", // 480px upwards
+          "48%", // 768px upwards
+          "32%", // 992px upwards
+        ]}>
       <Heading size='lg' align='center' m='2'>
         TE
       </Heading>
@@ -58,8 +68,9 @@ const TightEnd = () => {
             </Flex>
           </Flex>
         ))}
-    </Container>
+    </Box>
   )
 }
+
 
 export default TightEnd
