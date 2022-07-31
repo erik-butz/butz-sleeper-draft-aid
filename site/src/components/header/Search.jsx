@@ -1,16 +1,48 @@
 import { Input, Button, Box, WrapItem } from '@chakra-ui/react'
-import React from 'react'
+import { useContext, useState } from 'react'
+import PlayerIdContext from '../../context/PlayerIdContext'
 
 const Search = () => {
+  const { setSleeperDraftId } = useContext(PlayerIdContext)
+  const [inputText, setInputText] = useState('')
+
+  const handleInputChange = ({ target: { value } }) => {
+    setInputText(value)
+  }
+
+  const handleSubmit = (e) => {
+    console.log(inputText)
+    e.preventDefault()
+    if (inputText.length === 0) {
+      alert('Please enter a sleeper draft Id')
+    }
+    else {
+      setSleeperDraftId(inputText)
+    }
+    setInputText('')
+  }
+
   return (
-    <WrapItem w='100%'>
-      <Box width='40%' m='5px' maxWidth='300px'>
-        <Input placeholder='SleeperDraftId' variant='outline'></Input>
-      </Box>
-      <Box m='5px' ml='0px'>
-        <Button colorScheme='teal' variant='solid'>Submit</Button>
-      </Box >
-    </WrapItem >
+    <form onSubmit={handleSubmit}>
+      <WrapItem w='100%'>
+        <Box width='40%' m='5px' maxWidth='300px' minWidth='300px'>
+          <Input
+            placeholder='SleeperDraftId'
+            variant='outline'
+            type='text'
+            onChange={handleInputChange}
+            value={inputText}
+          />
+        </Box>
+        <Box m='5px' ml='0px'>
+          <Button
+            colorScheme='teal'
+            variant='solid'
+            type='submit'
+          >Submit</Button>
+        </Box >
+      </WrapItem >
+    </form>
   )
 }
 

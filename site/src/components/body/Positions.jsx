@@ -26,7 +26,7 @@ function Positions() {
           Positions
         </Heading>
       </Center>
-      <Wrap display='flex' justify-content='center' align-items='center'>
+      <Wrap >
         <Quarterback />
         <RunningBack />
         <WideReceiver />

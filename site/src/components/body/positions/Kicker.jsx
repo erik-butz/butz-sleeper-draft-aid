@@ -33,7 +33,16 @@ const Kicker = () => {
   }, [draftedPlayersIds])
 
   return (
-    <Box>
+    <Box pl='10px' pr='10px' display='flex'
+      justify-content='center'
+      align-items='center'
+      flexDirection='column'
+      width={
+        ["100%", // base
+          "100%", // 480px upwards
+          "48%", // 768px upwards
+          "32%", // 992px upwards
+        ]}>
       <Heading size='lg' align='center' m='2'>
         K
       </Heading>
