@@ -102,7 +102,6 @@ const addSleeperIdToData = async (data) => {
 
 const getPosition = async (res) => {
   try {
-    console.log(__dirname)
     const positions = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'TOP200']
     for (const position of positions) {
       console.log(`POSITION: ${position}`)
@@ -117,7 +116,6 @@ const getPosition = async (res) => {
           console.log(result)
         }
       })
-
       //Paste csv files in helper folder
       let workbook = XLSX.readFile(`${__dirname}` + `/${position}.csv`)
       let workSheet = workbook.Sheets.Sheet1
