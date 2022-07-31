@@ -7,7 +7,6 @@ const TightEnd = () => {
   const { draftedPlayersIds } = useContext(PlayerIdContext)
   const [tightEnds, setTightEnds] = useState([])
 
-
   useEffect(() => {
     const url = rankingEndpointHelper()
     let filteredTightEndArray = []
