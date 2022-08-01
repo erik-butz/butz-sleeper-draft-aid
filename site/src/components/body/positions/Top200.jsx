@@ -1,4 +1,4 @@
-import { WrapItem, Box, Heading, Center } from '@chakra-ui/react'
+import { WrapItem, Spacer, Heading, Center, Flex } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
 import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
@@ -46,13 +46,16 @@ function Top200() {
         !players.length
           ? 'Loading....'
           : players.map((player) => (
-            <Box
+            <Flex
               color='black'
-              m='1'
               key={player.Name}
+              ml='4px'
+              bgColor='blue.100'
+              w='100%'
+              borderBottom='1px solid grey'
             >
-              {player.Rank} {player.Name}
-            </Box>
+              {player.Rank}  {player.Name}
+            </Flex>
           ))
       }
     </WrapItem >
