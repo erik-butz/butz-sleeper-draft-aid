@@ -121,16 +121,23 @@ You may also see any lint errors in the console.
   - ~~Create helper function for url endpoints (Local vs Prod)~~ (Done 7/12)
   - ~~Look into bucket storage for json files~~ (No longer needed, storing data in Mongodb Collection)
     - ~~Refactor to package up .csv files or store positions on tables in mongodb~~ (Done 7/12)
-- Bug: Fix fetch all players to add Defenses
-  - Position: Def
-  - Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc
-- Ken/Kenneth Walker bug (Not filtering name out)
 - Use Chakra UI to improve the UI
+  - Update Color scheme once layout is finalized
+- Set max height & scroll bars for sections
 - ~~Figure out how to filter Kickers (No Sleeper ID for them in DB)~~
 - ~~Add ability to search by sleeper draft ID~~
   - ~~Textbox asking for draft id, then loads page and rankings~~
 - Add top 200 rankings from another similar spot
   - Use PDF OCR reader to import other Top 200 rankings & tiers
   - https://openbase.com/js/node-tesseract-ocr
-- Fetch players for my team (By user ID)
-- Make 3 columns responsive for mobile
+- ~~Fetch players for my team (By user ID)~~
+- ~~Make 3 columns responsive for mobile~~
+- FetchAllPlayers Optimization to insert only active players
+- FetchAllPlayers Optimization to insert bulk json record vs loop
+- Look into insertion of duplicate fields in Mongodb
+  - //https://stackoverflow.com/questions/24122981/how-to-stop-insertion-of-duplicate-documents-in-a-mongodb-collection
+- Bugs
+  - Fix fetch all players to add Defenses
+    - Position: Def
+    - Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc
+  - ~~Ken/Kenneth Walker bug (Not filtering name out)~~

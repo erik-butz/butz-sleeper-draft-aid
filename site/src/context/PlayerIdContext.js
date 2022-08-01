@@ -22,6 +22,8 @@ export const PlayerProvider = ({ children }) => {
 
   useEffect(() => {
     if (isMounted.current) {
+      //Need to figure out how to cancel this if a new draft id is submitted
+      //Is there a better way to constantly fetch the live draft data besides interval every 1s?
       setInterval(() => {
         fetchDraftedUsers()
       }, 1000)
