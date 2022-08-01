@@ -25,9 +25,7 @@ export const PlayerProvider = ({ children }) => {
       const interval = setInterval(() => {
         fetchDraftedUsers()
       }, 1000)
-      return () => {
-        clearInterval(interval)
-      }
+      return () => clearInterval(interval)
     } else {
       isMounted.current = true
     }
