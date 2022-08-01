@@ -32,6 +32,7 @@ export const PlayerProvider = ({ children }) => {
   }, [draftedPlayersId, url])
 
   const setSleeperDraftId = (sleeperDraftId) => {
+    setDraftedPlayerIds([])
     setUrl(`https://api.sleeper.app/v1/draft/${sleeperDraftId}/picks`)
   }
 
