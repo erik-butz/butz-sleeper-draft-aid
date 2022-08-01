@@ -134,6 +134,7 @@ You may also see any lint errors in the console.
 - ~~Make 3 columns responsive for mobile~~
 - FetchAllPlayers Optimization to insert only active players
 - FetchAllPlayers Optimization to insert bulk json record vs loop
+- Get off using lodash to flatten the object
 - Look into insertion of duplicate fields in Mongodb
   - //https://stackoverflow.com/questions/24122981/how-to-stop-insertion-of-duplicate-documents-in-a-mongodb-collection
 - Bugs

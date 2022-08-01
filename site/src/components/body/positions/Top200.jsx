@@ -1,4 +1,4 @@
-import { WrapItem, Spacer, Heading, Center, Flex } from '@chakra-ui/react'
+import { WrapItem, Heading, Center, Flex } from '@chakra-ui/react'
 import React, { useEffect, useState, useContext } from 'react'
 import PlayerIdContext from '../../../context/PlayerIdContext'
 import { rankingEndpointHelper } from '../../../helper/rankingEndpointHelper'
