@@ -124,6 +124,7 @@ You may also see any lint errors in the console.
 - Use Chakra UI to improve the UI
   - Update Color scheme once layout is finalized
 - Set max height & scroll bars for sections
+- ~~Add "reset" function which will be called to reset the page before fetching draft data~~
 - ~~Figure out how to filter Kickers (No Sleeper ID for them in DB)~~
 - ~~Add ability to search by sleeper draft ID~~
   - ~~Textbox asking for draft id, then loads page and rankings~~

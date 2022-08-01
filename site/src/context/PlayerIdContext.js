@@ -25,13 +25,16 @@ export const PlayerProvider = ({ children }) => {
       const interval = setInterval(() => {
         fetchDraftedUsers()
       }, 1000)
-      return () => clearInterval(interval)
+      return () => {
+        clearInterval(interval)
+      }
     } else {
       isMounted.current = true
     }
   }, [draftedPlayersId, url])
 
   const setSleeperDraftId = (sleeperDraftId) => {
+    setDraftedPlayerIds([])
     setUrl(`https://api.sleeper.app/v1/draft/${sleeperDraftId}/picks`)
   }
 
