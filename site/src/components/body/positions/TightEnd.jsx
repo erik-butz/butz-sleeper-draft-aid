@@ -52,7 +52,7 @@ const TightEnd = () => {
           <Flex
             className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
             border='1px'
-            color='black'
+            color='#57607e'
             borderColor='gray.200'
             key={player.player_id}
           >

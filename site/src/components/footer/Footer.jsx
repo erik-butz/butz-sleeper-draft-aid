@@ -25,7 +25,7 @@ const SocialButton = ({ children, label, href }) => {
       justifyContent={'center'}
       transition={'background 0.3s ease'}
       _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
+        bg: useColorModeValue('white'),
       }}
     >
       <VisuallyHidden>{label}</VisuallyHidden>
@@ -36,10 +36,7 @@ const SocialButton = ({ children, label, href }) => {
 
 const Footer = () => {
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
-    >
+    <Box>
       <Container
         as={Stack}
         maxW={'6xl'}
@@ -49,7 +46,7 @@ const Footer = () => {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Text>© 2022 Butz Draft Aid</Text>
+        <Text color='white'>© 2022 Butz Draft Aid</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Github'} href={'#'}>
             <FaGithub />
