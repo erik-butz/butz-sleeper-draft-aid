@@ -41,23 +41,25 @@ const Defense = () => {
       <Heading size='lg' align='center' m='2'>
         D
       </Heading>
-      {!defenses.length
-        ? 'Loading....'
-        : defenses.map((player) => (
-          <Flex
-            className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
-            border='1px'
-            color='#57607e'
-            borderColor='gray.200'
-            key={player.Team}
-          >
-            <Flex ml='4'>
-              {player.Rank}
-              {') '}
-              {player.Name}
+      <Box>
+        {!defenses.length
+          ? 'Loading....'
+          : defenses.map((player) => (
+            <Flex
+              className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
+              border='1px'
+              color='#57607e'
+              borderColor='gray.200'
+              key={player.Team}
+            >
+              <Flex ml='4'>
+                {player.Rank}
+                {') '}
+                {player.Name}
+              </Flex>
             </Flex>
-          </Flex>
-        ))}
+          ))}
+      </Box>
     </Box>
   )
 }

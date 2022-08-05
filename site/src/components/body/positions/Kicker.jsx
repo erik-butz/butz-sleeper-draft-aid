@@ -46,23 +46,25 @@ const Kicker = () => {
       <Heading size='lg' align='center' m='2'>
         K
       </Heading>
-      {!kickers.length
-        ? 'Loading....'
-        : kickers.map((player) => (
-          <Flex
-            className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
-            border='1px'
-            color='#57607e'
-            borderColor='gray.200'
-            key={player.Name}
-          >
-            <Flex ml='4'>
-              {player.Rank}
-              {') '}
-              {player.Name}
+      <Box>
+        {!kickers.length
+          ? 'Loading....'
+          : kickers.map((player) => (
+            <Flex
+              className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
+              border='1px'
+              color='#57607e'
+              borderColor='gray.200'
+              key={player.Name}
+            >
+              <Flex ml='4'>
+                {player.Rank}
+                {') '}
+                {player.Name}
+              </Flex>
             </Flex>
-          </Flex>
-        ))}
+          ))}
+      </Box>
     </Box>
   )
 }

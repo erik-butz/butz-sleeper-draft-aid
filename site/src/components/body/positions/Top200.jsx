@@ -41,7 +41,7 @@ function Top200() {
         "24%", // 992px upwards
       ]} >
       <Center color='white' w='100%' borderBottom='2px solid black' mb='1'>
-        <Heading as='h1' color='black'> Overall Rankings</Heading >
+        <Heading as='h1' color='black'>Overall Rankings</Heading >
       </Center>
       <Box overflowY='scroll' maxH='100vh'>
         {
@@ -53,9 +53,10 @@ function Top200() {
                 key={player.Name}
                 bg='#bbbac1'
                 w='100%'
-                borderBottom='1px solid grey'
+                pl='5px'
+                mb='1px'
               >
-                {player.Rank}  {player.Name}
+                {player.Rank} {') '} {player.Name}
               </Flex>
             ))
         }

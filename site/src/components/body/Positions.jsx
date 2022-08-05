@@ -2,8 +2,8 @@ import React from 'react'
 import {
   Center,
   Heading,
-  WrapItem,
-  Wrap,
+  Flex,
+  Box,
   Container
 } from '@chakra-ui/react'
 import '../../index.css'
@@ -16,28 +16,28 @@ import Kicker from './positions/Kicker'
 
 function Positions() {
   return (
-    <WrapItem bg='#8a8b9e' ml='auto' mr='auto' flexDirection='column' width={[
+    <Box bg='#8a8b9e' ml='auto' mr='auto' overflowY='scroll' width={[
       "100%", // base
       "100%", // 480px upwards
       "60%", // 768px upwards
       "74%", // 992px upwards
     ]}>
-      <Container maxW='100%' overflowY='scroll' >
-        <Center color='black' w='100%' borderBottom='2px solid black' mb='1'>
+      <Container maxW='100%'>
+        <Center color='black' borderBottom='2px solid black' >
           <Heading as='h1'>
             Positions
           </Heading>
         </Center>
-        <Wrap >
+        <Flex flexWrap={['nowrap', 'wrap', 'wrap', 'warp', 'warp', 'nowrap']} >
           <Quarterback />
           <RunningBack />
           <WideReceiver />
           <TightEnd />
           <Defense />
           <Kicker />
-        </Wrap>
+        </Flex>
       </Container>
-    </WrapItem>
+    </Box>
   )
 }
 
