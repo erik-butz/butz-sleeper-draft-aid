@@ -46,28 +46,30 @@ const TightEnd = () => {
       <Heading size='lg' align='center' m='2'>
         TE
       </Heading>
-      {!tightEnds.length
-        ? 'Loading....'
-        : tightEnds.map((player) => (
-          <Flex
-            className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
-            border='1px'
-            color='black'
-            borderColor='gray.200'
-            key={player.player_id}
-          >
-            <Flex ml='4'>
-              {player.Rank}
-              {') '}
-              {player.Name}
+      <Box>
+        {!tightEnds.length
+          ? 'Loading....'
+          : tightEnds.map((player) => (
+            <Flex
+              className={player.Tier % 2 === 0 ? 'evenTier' : 'oddTier'}
+              border='1px'
+              color='#57607e'
+              borderColor='gray.200'
+              key={player.player_id}
+            >
+              <Flex ml='4'>
+                {player.Rank}
+                {') '}
+                {player.Name}
+              </Flex>
+              <Spacer />
+              <Flex mr='4'>
+                {'Tier: '}
+                {player.Tier}
+              </Flex>
             </Flex>
-            <Spacer />
-            <Flex mr='4'>
-              {'Tier: '}
-              {player.Tier}
-            </Flex>
-          </Flex>
-        ))}
+          ))}
+      </Box>
     </Box>
   )
 }

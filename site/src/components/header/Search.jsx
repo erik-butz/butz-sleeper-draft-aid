@@ -1,4 +1,4 @@
-import { Input, Button, Box, WrapItem } from '@chakra-ui/react'
+import { Input, Button, Box, Flex } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 import PlayerIdContext from '../../context/PlayerIdContext'
 
@@ -24,12 +24,13 @@ const Search = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <WrapItem w='100%'>
-        <Box m='5px'>
+      <Flex w='100%'>
+        <Box m='5px 5px 5px 0px'>
           <Input
             placeholder='SleeperDraftId'
             variant='outline'
             type='text'
+            color='white'
             onChange={handleInputChange}
             value={inputText}
           />
@@ -41,7 +42,7 @@ const Search = () => {
             type='submit'
           >Submit</Button>
         </Box >
-      </WrapItem >
+      </Flex >
     </form>
   )
 }

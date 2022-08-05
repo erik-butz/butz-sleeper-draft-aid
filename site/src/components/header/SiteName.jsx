@@ -6,7 +6,7 @@ const SiteName = () => {
     <WrapItem width={[
       "100%"
     ]}>
-      <Heading ml='10px'>Butz Sleeper Draft Aid</Heading>
+      <Heading>Butz Sleeper Draft Aid</Heading>
     </WrapItem>
   )
 }
