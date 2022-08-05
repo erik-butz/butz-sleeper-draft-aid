@@ -28,7 +28,7 @@ function Positions() {
             Positions
           </Heading>
         </Center>
-        <Flex flexWrap={['nowrap', 'wrap', 'wrap', 'warp', 'warp', 'nowrap']} >
+        <Flex flexWrap={['wrap', 'wrap', 'wrap', 'warp', 'nowarp', 'nowrap']} >
           <Quarterback />
           <RunningBack />
           <WideReceiver />
