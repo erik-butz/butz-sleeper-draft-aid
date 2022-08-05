@@ -5,6 +5,7 @@ const PlayerIdContext = createContext()
 export const PlayerProvider = ({ children }) => {
   const [draftedPlayersId, setDraftedPlayerIds] = useState([])
   const [url, setUrl] = useState('')
+  const [uniqueDraftId, setUniqueDraftId] = useState('')
   const isMounted = useRef(false)
 
   useEffect(() => {
@@ -33,12 +34,14 @@ export const PlayerProvider = ({ children }) => {
 
   const setSleeperDraftId = (sleeperDraftId) => {
     setDraftedPlayerIds([])
+    setUniqueDraftId(sleeperDraftId)
     setUrl(`https://api.sleeper.app/v1/draft/${sleeperDraftId}/picks`)
   }
 
   return <PlayerIdContext.Provider value={{
     draftedPlayersIds: draftedPlayersId,
-    setSleeperDraftId
+    setSleeperDraftId,
+    uniqueDraftId
   }}>
     {children}
   </PlayerIdContext.Provider>

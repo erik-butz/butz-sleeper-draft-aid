@@ -10,7 +10,7 @@ function App() {
     <PlayerProvider>
       <Container bgColor='#203b60' maxW='100%'>
         <Header maxH='10vh' />
-        <Flex maxH='87vh' mb='5px' >
+        <Flex maxH='87vh' mb='5px'>
           <Positions />
           <Top200 />
         </Flex>
