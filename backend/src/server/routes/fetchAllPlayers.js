@@ -21,12 +21,17 @@ router.get('/', (_req, res) => {
   const collectionName = 'AllPlayers'
 
   const fetchUsers = async () => {
+    const response = await fetch(nflPlayersUrl)
+    const data = await response.json()
+
     const db = await mongoUtil.getDb()
     //Collection (Table) Name in MongoDB
     players = await db.collection(collectionName)
 
     //Mass drop of entire collection and inserting of all players
     //is easier and faster than querying and updating each record
+    //This data is not maintained by me and provided by sleeper so a
+    //dropping the table and reinserting all the data makes sense
     await db.collection(collectionName).drop((err, result) => {
       if (err) {
         console.log(`Error dropping collection ${collectionName}`)
@@ -34,9 +39,7 @@ router.get('/', (_req, res) => {
         console.log(`Successfully dropped collection ${collectionName}`)
       }
     })
-
-    const response = await fetch(nflPlayersUrl)
-    const data = await response.json()
+    
 
     //Api from sleeper doesn't generate a sleeper_id for defenses so need to 
     //loop through each of them like this to insert into mongodb
