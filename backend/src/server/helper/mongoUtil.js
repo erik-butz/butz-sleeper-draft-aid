@@ -8,7 +8,7 @@ const mongoDbEnvHelper = () => {
     case 'development':
       return `mongodb://localhost:27017`
     case 'production':
-      return 'https://butz-sleeper-draft-aid-backend.herokuapp.com/rankings'
+      return `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
     default:
       return 'mongodb://localhost:27017'
   }
