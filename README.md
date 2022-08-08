@@ -121,9 +121,9 @@ You may also see any lint errors in the console.
   - ~~Create helper function for url endpoints (Local vs Prod)~~ (Done 7/12)
   - ~~Look into bucket storage for json files~~ (No longer needed, storing data in Mongodb Collection)
     - ~~Refactor to package up .csv files or store positions on tables in mongodb~~ (Done 7/12)
-- Use Chakra UI to improve the UI
-  - Update Color scheme once layout is finalized
-- Set max height & scroll bars for sections
+- ~~Use Chakra UI to improve the UI~~
+  - ~~Update Color scheme once layout is finalized~~
+- ~~Set max height & scroll bars for sections~~
 - ~~Add "reset" function which will be called to reset the page before fetching draft data~~
 - ~~Figure out how to filter Kickers (No Sleeper ID for them in DB)~~
 - ~~Add ability to search by sleeper draft ID~~
@@ -134,12 +134,12 @@ You may also see any lint errors in the console.
 - ~~Fetch players for my team (By user ID)~~
 - ~~Make 3 columns responsive for mobile~~
 - FetchAllPlayers Optimization to insert only active players
-- FetchAllPlayers Optimization to insert bulk json record vs loop
+- ~~FetchAllPlayers Optimization to insert bulk json record vs loop~~
 - Get off using lodash to flatten the object
-- Look into insertion of duplicate fields in Mongodb
-  - //https://stackoverflow.com/questions/24122981/how-to-stop-insertion-of-duplicate-documents-in-a-mongodb-collection
+- ~~Look into insertion of duplicate fields in Mongodb~~
+  - ~~Tried using update vs insertOne as well as insertMany and neither options were worth going further into. Update took 15x as long to perform and insertMany wasn't worth messing with the array that's returned by sleeper's api call~~
 - Bugs
-  - Fix fetch all players to add Defenses
-    - Position: Def
-    - Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc
+  - ~~Fix fetch all players to add Defenses~~
+    - ~~Position: Def~~
+    - ~~Player_id: Tennessee Titans = TEN, Washington Commanders = WAS... etc~~
   - ~~Ken/Kenneth Walker bug (Not filtering name out)~~
