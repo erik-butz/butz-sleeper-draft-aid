@@ -1,4 +1,3 @@
-const fs = require('fs')
 const mongoUtil = require('../../helper/mongoUtil')
 
 const getPosition = async (res, position) => {
@@ -15,7 +14,7 @@ const getPosition = async (res, position) => {
     
     const foundPlayers = await players
       .find(query)
-      .sort({ Rank: 1 })
+      .sort({ Rank: 1 }) //Rank: 1 sorts all them by rank in ascending order (1, 2, 3)
       .toArray()
     
     res.status(200).json(foundPlayers)
