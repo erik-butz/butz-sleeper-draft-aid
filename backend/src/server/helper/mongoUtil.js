@@ -16,7 +16,6 @@ const mongoDbEnvHelper = () => {
 
 const connectToMongoDb = () => {
   const url = mongoDbEnvHelper()
-  console.log(url)
   try {
     MongoClient.connect(
       url,

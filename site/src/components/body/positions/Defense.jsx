@@ -8,6 +8,7 @@ const Defense = () => {
   const [defenses, setDefenses] = useState([])
 
   useEffect(() => {
+    let filteredDefenseArray = []
     const url = rankingEndpointHelper()
     const fetchDefenses = async () => {
       const response = await fetch(url, {
@@ -21,9 +22,13 @@ const Defense = () => {
         }),
       })
       const data = await response.json()
-      setDefenses(data)
+      data.forEach((player) => {
+        if (!draftedPlayersIds.includes(player.Team)) {
+          filteredDefenseArray.push(player)
+        }
+      })
+      setDefenses([...filteredDefenseArray])
     }
-
     fetchDefenses()
   }, [draftedPlayersIds])
 

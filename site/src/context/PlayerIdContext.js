@@ -14,12 +14,11 @@ export const PlayerProvider = ({ children }) => {
     const fetchDraftedUsers = async () => {
       const response = await fetch(url)
       const data = await response.json()
-
       data.forEach((player) => {
         if (!newDraftedPlayerArray.includes(player.player_id))
           newDraftedPlayerArray.push(player.player_id)
       })
-      setDraftedPlayerIds([...draftedPlayersId, ...newDraftedPlayerArray])
+      setDraftedPlayerIds([...newDraftedPlayerArray])
     }
 
     if (isMounted.current) {
