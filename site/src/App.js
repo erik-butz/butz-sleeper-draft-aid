@@ -7,10 +7,10 @@ import Header from './components/header/Header'
 
 function App() {
   return (
-    <PlayerProvider>
-      <Container bgColor='#203b60' maxW='100%'>
+    <PlayerProvider bgColor='#203b60'>
+      <Container bgColor='#203b60' maxW='100%' minH='100vh'>
         <Header maxH='10vh' />
-        <Flex maxH='87vh' mb='5px'>
+        <Flex maxH='85.5vh' mb='5px' flexWrap={'wrap'} overflowY='scroll'>
           <Positions />
           <Top200 />
         </Flex>

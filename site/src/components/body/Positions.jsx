@@ -16,7 +16,7 @@ import Kicker from './positions/Kicker'
 
 function Positions() {
   return (
-    <Box bg='#8a8b9e' ml='auto' mr='auto' overflowY='scroll' width={[
+    <Box bg='#8a8b9e' ml='auto' mr='auto' width={[
       "100%", // base
       "100%", // 480px upwards
       "60%", // 768px upwards

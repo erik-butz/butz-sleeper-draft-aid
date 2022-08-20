@@ -9,8 +9,8 @@ const Header = () => {
   const { uniqueDraftId } = useContext(PlayerIdContext)
 
   return (
-    <Box ml='.8em' flexWrap={'wrap'} >
-      <Flex justifyContent={'flex-start'} flexWrap={'wrap'} >
+    <Box ml='.8em'>
+      <Flex justifyContent={'flex-start'} >
         <Box w={[
           '100vw',
           '100vw',
@@ -19,9 +19,10 @@ const Header = () => {
         ]} pl='.5em'>
           <SiteName />
           <Search />
-        </Box>
-        <Box color='57607e' w='50vw' display={'flex'} justifyContent='flex-start' alignItems={'center'} fontSize={['1x1', '2xl', '3x1', '4xl']} ml='.5em'>
-          Sleeper Draft Id: {uniqueDraftId}
+          <Box color='#fded96' fontSize={['2xl']}>
+            Sleeper Draft Id: {uniqueDraftId}
+          </Box>
+
         </Box>
       </Flex >
     </Box >
