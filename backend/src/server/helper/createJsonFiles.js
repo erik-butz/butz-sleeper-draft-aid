@@ -114,7 +114,7 @@ const addSleeperIdToData = async (data) => {
         break
     }
 
-    //There are 2 Michael Thomas so need to add team name to query on
+    //There are a few duplicate player names so need to add team name to query on
     if (team !== '') {
       query = {
         full_name: `${playerName}`,
