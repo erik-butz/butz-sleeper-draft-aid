@@ -33,7 +33,7 @@ function Top200() {
   }, [draftedPlayersIds])
 
   return (
-    <Box ml='auto' mr='auto' bg='#8a8b9e' flexDirection='column' overflow='hidden' width={
+    <Box ml='auto' mr='auto' bg='#8a8b9e' width={
       [
         "100%", // base
         "100%", // 480px upwards
@@ -43,7 +43,7 @@ function Top200() {
       <Center color='white' w='100%' borderBottom='2px solid black' mb='1'>
         <Heading as='h1' color='black'>Overall Rankings</Heading >
       </Center>
-      <Box overflowY='scroll' maxH='100vh'>
+      <Box maxH='100vh'>
         {
           !players.length
             ? 'Loading....'

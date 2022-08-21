@@ -7,10 +7,10 @@ require('dotenv').config()
 const defTeamNames = [
   'ARI', 'ATL', 'BAL', 'BUF', 'CAR',
   'CHI', 'CIN', 'CLE', 'DAL', 'DEN',
-  'DET', 'GB', 'HOU', 'IND', 'JAX', 
-  'KC', 'LAC', 'LAR', 'LV', 'MIA', 
-  'MIN', 'NE', 'NO', 'NYG', 'NYJ', 
-  'PHI', 'PIT', 'SEA', 'SF', 'TB', 
+  'DET', 'GB', 'HOU', 'IND', 'JAX',
+  'KC', 'LAC', 'LAR', 'LV', 'MIA',
+  'MIN', 'NE', 'NO', 'NYG', 'NYJ',
+  'PHI', 'PIT', 'SEA', 'SF', 'TB',
   'TEN', 'WAS'
 ]
 
@@ -32,14 +32,14 @@ router.get('/', (_req, res) => {
     //is easier and faster than querying and updating each record
     //This data is not maintained by me and provided by sleeper so a
     //dropping the table and reinserting all the data makes sense
-    await db.collection(collectionName).drop((err, result) => {
+    await db.collection(collectionName).drop((err, _result) => {
       if (err) {
         console.log(`Error dropping collection ${collectionName}`)
       } else {
         console.log(`Successfully dropped collection ${collectionName}`)
       }
     })
-    
+
 
     //Api from sleeper doesn't generate a sleeper_id for defenses so need to 
     //loop through each of them like this to insert into mongodb
@@ -55,7 +55,7 @@ router.get('/', (_req, res) => {
         continue
       } else {
         //Loops through each player and inserts it one at a time
-      players.insertOne(data[i])
+        players.insertOne(data[i])
       }
     }
     return res.status(200).json({ message: 'Successfully fetched all players' })

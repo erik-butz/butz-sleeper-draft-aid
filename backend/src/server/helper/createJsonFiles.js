@@ -18,10 +18,11 @@ const addSleeperIdToData = async (data) => {
   const db = await mongoUtil.getDb()
   //Collection (Table) Name in MongoDB
   let players = await db.collection(collectionName)
+  let query
+  let team
 
   for (const player of data) {
     let playerName = player.Name
-    let team = player.Team
     //Massive switch statement to clean up names of sleeper vs excel sheets
     switch (playerName) {
       case 'Jeff Wilson Jr.':
@@ -37,7 +38,7 @@ const addSleeperIdToData = async (data) => {
         playerName = 'Darrell Henderson'
         break
       case 'Kenneth Walker III':
-        playerName = 'Ken Walker'
+        playerName = 'Kenneth Walker'
         break
       case 'Melvin Gordon III':
         playerName = 'Melvin Gordon'
@@ -78,18 +79,59 @@ const addSleeperIdToData = async (data) => {
       case 'Irv Smith Jr.':
         playerName = 'Irv Smith'
         break
+      case 'AJ Brown':
+        playerName = 'A.J. Brown'
+        break
+      case 'Devonta Smith':
+        playerName = 'DeVonta Smith'
+        break
+      case 'Gabriel Davis':
+        playerName = 'Gabe Davis'
+        break
+      case 'JK Dobbins':
+        playerName = 'J.K. Dobbins'
+        break
+      case 'TJ Hockenson':
+        playerName = 'T.J. Hockenson'
+        break
+      case 'Pierre Strong Jr.':
+        playerName = 'Pierre Strong'
+        break
+      case 'Benny Snell Jr.':
+        playerName = 'Benny Snell'
+        break
+      case 'Calvin Austin III':
+        playerName = 'Calvin Austin'
+        break
+      case 'Michael Thomas':
+        team = 'NO'
+        break
+      case 'Elijah Mitchell':
+        team = 'SF'
+        break
+
       default:
         break
     }
 
-    const query = {
-      full_name: `${playerName}`,
-      team: `${team}`,
+    //There are a few duplicate player names so need to add team name to query on
+    if (team !== '') {
+      query = {
+        full_name: `${playerName}`,
+        active: true,
+        team: `${team}`
+      }
+      team = ''
+    } else {
+      query = {
+        full_name: `${playerName}`,
+        active: true
+      }
     }
+
     const fieldsToQuery = {
       player_id: 1,
-      full_name: 1,
-      team: 1,
+      full_name: 1
     }
     const foundPlayer = await players
       .find(query)

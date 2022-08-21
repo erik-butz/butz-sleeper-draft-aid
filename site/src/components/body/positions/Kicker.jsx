@@ -55,7 +55,7 @@ const Kicker = () => {
               border='1px'
               color='#57607e'
               borderColor='gray.200'
-              key={player.Name}
+              key={player.player_id}
             >
               <Flex ml='4'>
                 {player.Rank}

@@ -10,7 +10,7 @@ const mongoDbEnvHelper = () => {
     case 'production':
       return `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
     default:
-      return 'mongodb://localhost:27017'
+      return `mongodb+srv://${process.env.MongoDbUser}:${process.env.MongoDbPw}@${process.env.MongoDbCollection}`
   }
 }
 
