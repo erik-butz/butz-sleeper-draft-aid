@@ -19,10 +19,10 @@ const addSleeperIdToData = async (data) => {
   //Collection (Table) Name in MongoDB
   let players = await db.collection(collectionName)
   let query
-  let team
 
   for (const player of data) {
     let playerName = player.Name
+    let team = ''
     //Massive switch statement to clean up names of sleeper vs excel sheets
     switch (playerName) {
       case 'Jeff Wilson Jr.':
@@ -82,6 +82,9 @@ const addSleeperIdToData = async (data) => {
       case 'AJ Brown':
         playerName = 'A.J. Brown'
         break
+      case 'KJ Osborn':
+        playerName = 'K.J. Osborn'
+        break
       case 'Devonta Smith':
         playerName = 'DeVonta Smith'
         break
@@ -94,6 +97,9 @@ const addSleeperIdToData = async (data) => {
       case 'TJ Hockenson':
         playerName = 'T.J. Hockenson'
         break
+      case 'JD McKissic':
+        playerName = 'J.D. McKissic'
+        break
       case 'Pierre Strong Jr.':
         playerName = 'Pierre Strong'
         break
@@ -102,6 +108,9 @@ const addSleeperIdToData = async (data) => {
         break
       case 'Calvin Austin III':
         playerName = 'Calvin Austin'
+        break
+      case 'Josh Palmer':
+        playerName = 'Joshua Palmer'
         break
       case 'Michael Thomas':
         team = 'NO'
