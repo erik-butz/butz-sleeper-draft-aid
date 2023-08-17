@@ -5,7 +5,7 @@ require('dotenv').config()
 
 
 router.get('/', async (_req, res) => {
-  console.log('setUpPositions Endpoint')
+  console.log('setUpRankings Endpoint')
 
   //Create Json files for different positions
   await createJsonFiles.getPosition(res)

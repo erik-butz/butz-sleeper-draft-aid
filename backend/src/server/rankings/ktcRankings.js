@@ -1,7 +1,7 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const _ = require('lodash')
-const mongoUtil = require('../../helper/mongoUtil')
+const mongoUtil = require('../helper/mongoUtil')
 require('dotenv').config()
 
 let players
@@ -9,7 +9,8 @@ const collectionName = 'AllPlayers'
 
 const keepTradeCutCall = async (res) => {
   axios
-    .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
+    // .get('https://keeptradecut.com/dynasty-rankings/rookie-rankings')
+    .get('https://keeptradecut.com/dynasty-rankings')
     .then(({ data }) => {
       const $ = cheerio.load(data)
       const playerNames = _.flatten(extractLinks($))
@@ -19,14 +20,14 @@ const keepTradeCutCall = async (res) => {
 
 const fetchUserByPlayerName = async (playerNames, res) => {
   console.log('Inside fetchUserByPlayerName')
-  try {
+  // try {
     const db = await mongoUtil.getDb()
     //Collection (Table) Name in MongoDB
     players = await db.collection(collectionName)
 
     for (const element of playerNames) {
       let playerName = element.PlayerName
-      //console.log(`Searching for player: ${playerName}`)
+      console.log(`Searching for player: ${playerName}`)
 
       //Custom switch statements for different names on site vs in mongodb db
       switch (playerName) {
@@ -42,8 +43,12 @@ const fetchUserByPlayerName = async (playerNames, res) => {
         case 'Isiah Pacheco':
           playerName = 'Isaih Pacheco'
           break
+        case 'Devon Achane':
+          playerName = `De'Von Achane`
         default:
           break
+        case 'Nathaniel Dell':
+          playerName = 'Tank Dell'
       }
 
       const query = {
@@ -58,13 +63,16 @@ const fetchUserByPlayerName = async (playerNames, res) => {
         .find(query)
         .project(fieldsToQuery)
         .toArray()
+        .catch((err) => {
+          console.log(err);
+        })
       element.player_id = await foundPlayer[0].player_id
     }
     return res.status(200).json(playerNames)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json('Error in fetchUserByPlayerName')
-  }
+  // } catch (err) {
+  //   console.log(err)
+  //   res.status(500).json('Error in fetchUserByPlayerName')
+  // }
 }
 
 const extractLinks = ($) => [

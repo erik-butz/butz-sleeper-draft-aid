@@ -1,17 +1,17 @@
 const XLSX = require('xlsx')
 const mongoUtil = require('./mongoUtil')
 
-const trimData = async (data) => {
-  Object.entries(data).forEach((player) => {
-    delete player[1].Outlook
-    delete player[1].Dynasty
-    delete player[1].Markers
-    delete player[1].Risk
-    delete player[1].Points
-  })
-  data = await addSleeperIdToData(data)
-  return data
-}
+// const trimData = async (data) => {
+//   Object.entries(data).forEach((player) => {
+//     delete player[1].POS
+//     delete player[1].BYE WEEK
+//     delete player[1].Markers
+//     delete player[1].Risk
+//     delete player[1].Points
+//   })
+//   data = await addSleeperIdToData(data);
+//   return data
+// }
 
 const addSleeperIdToData = async (data) => {
   const collectionName = 'AllPlayers'
@@ -151,33 +151,35 @@ const addSleeperIdToData = async (data) => {
   return data
 }
 
-const getPosition = async (res) => {
+const setUpRankings = async (res) => {
   try {
-    const positions = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'TOP200']
-    for (const position of positions) {
-      console.log(`POSITION: ${position}`)
+    const collection = 'rankings';
+    // for (const position of positions) {
+    //   console.log(`POSITION: ${position}`)
       const db = await mongoUtil.getDb()
-      const positionTable = await db.collection(position)
+      const rankingsTable = await db.collection(collection)
 
       //Need to drop to update all rankings
-      await db.collection(position).drop((err, result) => {
+      await db.collection(collection).drop((err, result) => {
         if (err) {
-          console.log(`Error dropping collection ${position}`)
+          console.log(`Error dropping collection ${collection}`)
         } else {
           console.log(result)
         }
       })
       //Paste csv files in helper folder
-      let workbook = XLSX.readFile(`${__dirname}` + `/${position}.csv`)
+      console.log(__dirname);
+      let workbook = XLSX.readFile(`../rankings/${collection}.csv`)
       let workSheet = workbook.Sheets.Sheet1
-      const jsonData = XLSX.utils.sheet_to_json(workSheet)
-      const trimmedJsonData = await trimData(jsonData)
-      trimmedJsonData.forEach(async (player) => {
+      let jsonData = XLSX.utils.sheet_to_json(workSheet)
+      jsonData = await addSleeperIdToData(data);
+      // const trimmedJsonData = await trimData(jsonData)
+      jsonData.forEach(async (player) => {
         //const responseFromDb = 
-        await positionTable.insertOne(player)
+        await rankingsTable.insertOne(player)
         //TODO: Add error if response from DB is not True (success). Need to log it out
       })
-    }
+    // }
     res.status(200).json({ Message: 'Success' })
   } catch (error) {
     console.log(`Error inserting into position collections: ${error.message}`)
@@ -187,4 +189,4 @@ const getPosition = async (res) => {
   }
 }
 
-module.exports = { getPosition }
+module.exports = { setUpRankings }

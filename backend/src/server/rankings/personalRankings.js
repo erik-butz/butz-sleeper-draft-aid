@@ -1,11 +1,11 @@
-const mongoUtil = require('../../helper/mongoUtil')
+const mongoUtil = require('../helper/mongoUtil')
 
-const getPosition = async (res, position) => {
+const getRankings = async (res) => {
   try {
     const db = await mongoUtil.getDb()
 
     //Collection (Table) Name in MongoDB
-    let players = await db.collection(position)
+    let players = await db.collection("rankings")
 
     //Query to get all documents that are greater than Rank 0 (aka all documents)
     const query = {
@@ -23,8 +23,4 @@ const getPosition = async (res, position) => {
   }
 }
 
-const fantasyFootballersRankings = (req, res) => {
-  getPosition(res, req?.body?.position)
-}
-
-module.exports = { fantasyFootballersRankings }
+module.exports = { getRankings }

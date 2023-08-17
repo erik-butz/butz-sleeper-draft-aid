@@ -91,7 +91,7 @@ JSON Body: ```{
 
 #### **Set Up Positions Rankings** 
 
-`http://localhost:8000/setUpPositions`
+`http://localhost:8000/setUpRankings`
 
 Information here
 
